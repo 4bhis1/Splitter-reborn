@@ -1,24 +1,16 @@
 import logo from './logo.svg';
 import './App.css';
+import Main from './Pages/Main';
+import { Theme } from './Context/Provider';
+import { useState } from 'react';
+import ColorMode from './Theme/ColorMode';
 
 function App() {
+  let [themeMode,changeTheme] = useState(!window.matchMedia("(prefers-color-scheme: dark)").matches)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Theme.Provider value={{themeMode:themeMode, changeTheme:changeTheme, colorFunction: ColorMode}}>
+      <Main />
+    </Theme.Provider>
   );
 }
 
