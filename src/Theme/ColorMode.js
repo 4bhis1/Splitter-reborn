@@ -3,7 +3,7 @@ import { Color } from "./Colors";
 
 const ColorMode = (mode, color) => {
   let bool = mode;
-  console.log("ColorMode", "-->", bool);
+  // console.log("ColorMode", "-->", bool);
 
   if (bool) {
     return {

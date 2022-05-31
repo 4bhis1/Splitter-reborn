@@ -1,0 +1,33 @@
+.topCard {
+    background-color: tomato;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 2px 2px #c0c0c0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.name {
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.amount {
+    font-size: 30px;
+    padding: 10px;
+    padding-left: 30px;
+}
+
+
+.resultToCard {
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: blanchedalmond;
+    border-radius: 10px;
+}
