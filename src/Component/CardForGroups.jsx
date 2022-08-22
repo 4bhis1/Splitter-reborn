@@ -4,9 +4,9 @@ import "./Card.css";
 
 import { FaTrashAlt } from "react-icons/fa";
 
-const Card = ({ Name, func, logo }) => {
+const Card = ({ Name, func, logo, impData }) => {
   const rand = Math.floor(Math.random() * logo.length);
-  // console.log(rand, logo[rand]);
+  // console.log("??>?>?>?>", func);
   return (
     <div className="topCard" onClick={func}>
       <div
@@ -22,7 +22,11 @@ const Card = ({ Name, func, logo }) => {
       </div>
       <div style={{ marginLeft: 20 }}>
         <div className="name">{Name}</div>
-        <div>Some important data to show</div>
+        <div>
+          {impData?.map((x, y) => {
+            return <div key={y}>{x}</div>;
+          })}
+        </div>
       </div>
     </div>
   );

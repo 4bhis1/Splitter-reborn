@@ -15,6 +15,7 @@ import Nav from "../Component/Nav";
 import Description from "./Description";
 import Logo from "../Theme/Logo";
 import { useEffect } from "react";
+import simplifyExpense from "./SimplifyExpense";
 
 let all = [];
 
@@ -33,9 +34,35 @@ function Main() {
     updateMainObject([
       {
         Dehradoon: {
+          avg: [300, 320],
           logo: Logo[0],
-          // date
+          expenses: [
+            {
+              Khana: [
+                { Name: "Abhishek", Amount: 900 },
+                { Name: "Shubhum", Amount: 0 },
+                { Name: "topesh", Amount: 0 },
+              ],
+            },
+            {
+              Rakesh: [
+                { Name: "Abhishek", Amount: 0 },
+                { Name: "Shubhum", Amount: 0 },
+                { Name: "topesh", Amount: 960 },
+              ],
+            },
+          ],
           members: ["Abhishek", "Shubhum", "topesh"],
+          result: [
+            [
+              { giver: "Shubhum", amount: 300, taker: "Abhishek" },
+              { giver: "topesh", amount: 300, taker: "Abhishek" },
+            ],
+            [
+              { giver: "Abhishek", amount: 320, taker: "topesh" },
+              { giver: "Shubhum", amount: 320, taker: "topesh" },
+            ],
+          ],
         },
       },
     ]);
@@ -103,17 +130,26 @@ function Main() {
                   let name = Object.keys(x)[0];
                   let tempObject = mainObject[y][Object.keys(x)];
                   // console.log("---> tempObject", tempObject);
+                  // let {}
+
+                  let ans;
+                  if (tempObject?.result) {
+                    const { temp, result } = simplifyExpense(tempObject.result);
+                    ans = result;
+                    // console.log("temp??.>>",temp);
+                  }
+                  // console.log(">>?<><?<<><?> xxx",tempObject)
+
                   return (
                     <Card
                       key={y}
                       Name={name}
                       logo={tempObject.logo}
                       func={() => {
-                        console.log("Clicked here");
                         updateIndexOfObject(y);
                         updateResult(true);
-                        // console.log(y);
                       }}
+                      impData ={ans}
                     />
                   );
                 })}
@@ -139,44 +175,6 @@ function Main() {
             </div>
           )}
         </div>
-        {/* <div
-              className="ResultButton"
-              style={{ backgroundColor: primary["main"] }}
-              onClick={() => {
-                let k = Calculate(all);
-                // console.log("answer from function",Calculate(all))
-                // console.log("answer in a variable",k)
-                updateAns(k);
-                updateResult(true);
-              }}
-            > */}
-        {/* Results */}
-        {/* </div> */}
-        {/* </> */}
-        {/* ) : (
-          <div
-            style={{
-              marginLeft: 10,
-              marginRight: 10,
-              height: "610px",
-              padding: 1,
-              backgroundColor: primary["light"],
-            }}
-          >
-            <div>
-              {console.log(ans)}
-              {ans.map((x, y) => {
-                return (
-                  <ResultToCard
-                    giver={x.giver}
-                    amount={x.amount}
-                    taker={x.taker}
-                  />
-                );
-              })}
-            </div>
-          </div>
-        )} */}
       </div>
     </div>
   );

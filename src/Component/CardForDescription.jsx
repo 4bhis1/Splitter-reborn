@@ -1,19 +1,14 @@
 import React from "react";
 import Calculate from "../Pages/Calculation";
 
-const CardForDescription = ({ data }) => {
-  //   console.log("datat is hete", data[Object.keys(data)[0]]);
-  const name = Object.keys(data)[0];
+const CardForDescription = ({ obj, index }) => {
+  const data = obj.expenses[index];
+  const name = Object.keys(data);
+  const result = obj.result[index];
+  const tempData = data[name];
 
-  let expensesOfMember = data[Object.keys(data)[0]];
+  const avg = obj.avg[index]
 
-  let tempData = [];
-
-  for (let i in expensesOfMember) {
-    tempData.push({ Name: i, Amount: parseInt(expensesOfMember[i]) });
-  }
-
-  const { result, avg } = Calculate(tempData);
 
   let ansInString = result.map((x) => {
     return x.taker + " own " + x.amount + " from " + x.giver;
@@ -22,7 +17,7 @@ const CardForDescription = ({ data }) => {
   return (
     <div className="topCard" style={{ display: "block" }}>
       <div>{name}</div>
-      <div style={{ marginLeft: 20,marginTop : 10 }}>
+      <div style={{ marginLeft: 20, marginTop: 10 }}>
         <div style={{ marginLeft: 20 }}>
           {tempData.map((x, y) => {
             return (

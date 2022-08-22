@@ -5,20 +5,28 @@ import { FaAngleLeft, FaPlus } from "react-icons/fa";
 import CardForDescription from "../Component/CardForDescription";
 import DropBox from "../Component/DropBox";
 import DropBoxDescription from "../Component/DropBoxDescription";
+import simplifyExpense from "./SimplifyExpense";
 
 const Description = ({ mainObject, updateMainObj, index }) => {
-  // console.log(">>>>>>>>>>>>>>>>><<<<<EEEe", mainObject);
   let tempObj;
   if (mainObject[index][Object.keys(mainObject[index])]) {
     tempObj = mainObject[index][Object.keys(mainObject[index])];
   }
   useEffect(() => {
     tempObj.expenses = [];
+    tempObj.result = [];
+    tempObj.avg = [];
   }, []);
 
   let [showAdd, updateShowAdd] = useState(false);
 
-  // console.log("???? --=-=-- mainObjectt", mainObject);
+  // console.log("??>?>?>", tempObj?.result);
+  let ans;
+  if (tempObj?.result) {
+    const { temp, result } = simplifyExpense(tempObj.result);
+    ans = result;
+    // console.log("temp??.>>",temp);
+  }
 
   return (
     <div
@@ -67,13 +75,22 @@ const Description = ({ mainObject, updateMainObj, index }) => {
           borderRadius: 11,
         }}
       >
-        Hellodea
+        {/* {tempObj["result"]?.map((result, y) => {
+          let ansInString = result.map((x) => {
+            return x.taker + " own " + x.amount + " from " + x.giver;
+          });
+          return ansInString.map((x1, y1) => {
+            return <div>{x1}</div>;
+          });
+        })} */}
+        {ans.map((x, y) => {
+          return <div key={y}>{x}</div>;
+        })}
       </div>
 
       <div>
         {tempObj?.expenses?.map((x, y) => {
-          // console.log("Description ", x);
-          return <CardForDescription data={x} key={y} />;
+          return <CardForDescription obj={tempObj} index={y} />;
         })}
       </div>
       <div

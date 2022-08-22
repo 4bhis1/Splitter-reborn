@@ -2,16 +2,15 @@ import React from "react";
 import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
+import Calculate from "../Pages/Calculation";
 
 import "./Dropbox.css";
 
 const DropBoxDescription = ({ updateShowAdd, updateMainObj, obj, mainObj }) => {
-  // console.log("obj in drop Box description", obj);
   const [text, updateText] = useState({
     expense: "",
   });
   let members = obj.members;
-  // console.log("<><//", members);
 
   const [check, updateCheck] = useState({
     selectAll: false,
@@ -62,14 +61,10 @@ const DropBoxDescription = ({ updateShowAdd, updateMainObj, obj, mainObj }) => {
             onChange={() => {
               updateCheck({ ...check, selectAll: !check.selectAll });
             }}
-            // label= "Select all"
           />
           Select all
           <div style={{ paddingLeft: 15, paddingTop: 5, paddingBottom: 5 }}>
             {members.map((x, y) => {
-              // for (let i in check) {
-              //   if (check[i] === false) check.selectAll = false;
-              // }
               if (!text[x]) text[x] = 0;
 
               if (check.selectAll)
@@ -91,7 +86,6 @@ const DropBoxDescription = ({ updateShowAdd, updateMainObj, obj, mainObj }) => {
                     style={{ width: 50 }}
                     value={text.x}
                     onChange={(e) => {
-                      // console.log(e.target.value);
                       updateText({ ...text, [x]: e.target.value });
                       if (e.target.value > 0) {
                         check[x] = true;
@@ -104,22 +98,21 @@ const DropBoxDescription = ({ updateShowAdd, updateMainObj, obj, mainObj }) => {
           </div>
           <button
             onClick={() => {
-              let arr = {};
+              let arr = [];
 
-              // console.log("texte", text);
-              // console.log("into this one more time");
               for (let i in check) {
                 if (check[i] === true && i !== "selectAll") {
-                  arr[i] = text[i];
+                  const temp = { Name: i, Amount: parseInt(text[i]) };
+                  arr = [...arr, temp];
                 }
               }
 
-              // console.log("<><<<<<<", { [text.expense]: arr });
-              // console.log("object h bhai ye", obj);
-              let temp = [...obj.expenses, { [text.expense]: arr }];
-              obj.expenses = temp;
-              // obj.expenses.push({ [text.expense]: arr });
-              // console.log("main Object---> M>>M>", mainObj, obj);
+              obj.expenses = [...obj.expenses, { [text.expense]: arr }];
+
+              const { result, avg } = Calculate(arr);
+
+              obj.result = [...obj.result, result];
+              obj.avg = [...obj.avg,avg];
 
               updateMainObj([...mainObj]);
               updateShowAdd(false);

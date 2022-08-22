@@ -61,7 +61,6 @@ const DropBox = ({ updateMainObj, updateShowAdd, obj }) => {
             })}
           <div
             onClick={() => {
-              //   console.log(count);
               updateCount((e) => e + 1);
             }}
           >
@@ -69,11 +68,6 @@ const DropBox = ({ updateMainObj, updateShowAdd, obj }) => {
           </div>
           <button
             onClick={() => {
-              //   let k = { Name: name, Amount: parseInt(number) };
-              //   all.push(k);
-              //   updateName("");
-              //   updateNumber("");
-              //   console.log("78069", all, k);
               let tempObj = {
                 [groupName]: {
                   logo: Logo[Math.floor(Math.random() * Logo.length)],
@@ -82,7 +76,6 @@ const DropBox = ({ updateMainObj, updateShowAdd, obj }) => {
               };
               updateMainObj([...obj, tempObj]);
               updateShowAdd(false);
-              //   console.log("--->", text);
             }}
           >
             Submit

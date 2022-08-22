@@ -23,7 +23,7 @@ let Calculate = (obj) => {
     }
   }
   // console.log(sum,sum/t,t,giver,taker)
-  console.log(giver, taker);
+  // console.log(giver, taker);
 
   let results = [];
 
