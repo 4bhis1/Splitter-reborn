@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { FaAngleLeft, FaPlus } from "react-icons/fa";
+import { Theme } from "../Context/Provider";
 import Swipe from "./Swipe";
 
 const Nav = ({ result, updateResult, primary, changeTheme, themeMode }) => {
+  const { updateLogin } = useContext(Theme);
   return (
     <nav
       style={{
@@ -44,6 +46,15 @@ const Nav = ({ result, updateResult, primary, changeTheme, themeMode }) => {
         >
           Swiper
         </div>
+      </div>
+      <div
+        onClick={() => {
+          console.log("Clicked geremf");
+          localStorage.removeItem("token");
+          updateLogin(false);
+        }}
+      >
+        Logout
       </div>
       <Swipe
         toggle={themeMode}

@@ -5,21 +5,23 @@ const ColorMode = (mode, color) => {
   let bool = mode;
   // console.log("ColorMode", "-->", bool);
 
-  if (bool) {
+  if (mode !== "light") {
+    // for dark mode
     return {
-      main: Color[`${color}`][900],
-      light: Color[`${color}`][200],
-      dark: Color[`${color}`][500],
-      font: Color[`${color}`][100],
-      backgroundColor: "rgb(240,240,240)",
+      darker: Color[`${color}`][900],
+      dark: Color[`${color}`][800],
+      light: Color[`${color}`][700],
+      lighter: Color[`${color}`][600],
+      font: "rgb(255,255,255)",
     };
   } else {
+    // for light mode
     return {
-      main: Color[`${color}`][100],
-      light: Color[`${color}`][600],
-      dark: Color[`${color}`][900],
-      font: Color[`${color}`][900],
-      backgroundColor: "rgb(32, 39, 62)",
+      darker: Color[`${color}`][400],
+      dark: Color[`${color}`][300],
+      light: Color[`${color}`][300],
+      lighter: Color[`${color}`][100],
+      font: "rgb(20,20,20)",
     };
   }
 };

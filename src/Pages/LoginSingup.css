@@ -1,0 +1,124 @@
+body {
+    padding: 0;
+    margin: 0;
+    background-color: RGB(146, 168, 209);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .main {
+    width: 450px;
+    /* background-color: white; */
+    /* height: 600px; */
+    /* box-shadow: 8px 8px 20px rgb(97, 121, 167); */
+  }
+  
+  .mainButton {
+    display: flex;
+  }
+  
+  .loginButton {
+    width: 300px;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: rgb(236, 229, 229);
+    padding: 20px;
+    margin: 0px 1px;
+    cursor: pointer;
+    font-size: 30px;
+  }
+  
+  .active {
+    background-color: white;
+  }
+  
+  .mainPart {
+    background-color: white;
+    border-top: 2px solid rgb(179, 177, 177);
+    margin: 0 1px;
+    height: auto;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .signupText,
+  .loginText {
+    color: rgb(54, 54, 172);
+    text-align: center;
+    padding: 10px;
+    padding-top: 0px;
+    margin-top: 5px;
+  }
+  
+  .signupText:hover,
+  .loginText:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
+  .formText {
+    margin: 10px 0;
+    font-size: 20px;
+    color: blue;
+  }
+  
+  .input-login {
+    width: 320px;
+    margin: 0 20px;
+    height: 40px;
+    border-radius: 4px;
+    padding: 0 10px;
+    border: 0px;
+    font-size: 20px;
+    border-bottom: 4px solid blue;
+    background-color: rgb(228, 228, 241);
+  }
+  
+  .input-login:active {
+    border: 0px;
+    /* border-bottom: 2px solid blue; */
+  }
+  
+  .formButton {
+    margin: 0;
+    margin-top: -10px;
+    width: min-content;
+    cursor: pointer;
+    background-color: white;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0px;
+  }
+  
+  .formButton:hover {
+    background-color: blueviolet;
+    color: white;
+  }
+  
+  .message {
+    position: absolute;
+    top: 60px;
+    right: 80px;
+    height: 30px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    min-width: 0px;
+    max-width: auto;
+    background-color: rgb(228, 228, 241);
+    /* padding: 10px 50px; */
+  }
+  
+  .helperText {
+    padding: 1%;
+    padding-left: 4%;
+    font-size: 16px;
+    color: red;
+  }
+  

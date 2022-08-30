@@ -24,6 +24,8 @@ function Main() {
   let primary = colorFunction(themeMode, "primary");
   let secondary = colorFunction(themeMode, "secondary");
 
+  console.log("primary secondary", primary, secondary);
+
   let [result, updateResult] = useState(false);
   let [showAdd, updateShowAdd] = useState(false);
   let [indexOfObject, updateIndexOfObject] = useState(0);
@@ -149,7 +151,7 @@ function Main() {
                         updateIndexOfObject(y);
                         updateResult(true);
                       }}
-                      impData ={ans}
+                      impData={ans}
                     />
                   );
                 })}
