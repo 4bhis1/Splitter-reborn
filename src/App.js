@@ -1,5 +1,5 @@
 import "./App.css";
-import Main from "./Pages/Main";
+import Main from "./Pages2/Main";
 import { Theme } from "./Context/Provider";
 import { useEffect, useState } from "react";
 import ColorMode from "./Theme/ColorMode";
@@ -11,14 +11,18 @@ function App() {
   );
   let [login, updateLogin] = useState(false);
 
-  console.log(">>>>>", window.localStorage.getItem("token"));
-
+  console.log(">>>>>", window.localStorage.getItem("user"));
+  let phone = "";
   useEffect(() => {
     if (window.localStorage.getItem("token")) {
       console.log("true h bhia h tur");
       updateLogin(true);
+      phone = window.localStorage.getItem("phone");
     }
   }, []);
+
+  console.log("phone", phone);
+  console.log("Login >>>", login);
   return (
     <Theme.Provider
       value={{
@@ -26,6 +30,7 @@ function App() {
         changeTheme: changeTheme,
         colorFunction: ColorMode,
         updateLogin: updateLogin,
+        userPhone: phone,
       }}
     >
       {login ? <Main /> : <LoginSignup updateLogin={updateLogin} />}

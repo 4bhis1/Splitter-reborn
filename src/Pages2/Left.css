@@ -1,0 +1,30 @@
+.addGroup{
+    display: flex;
+    position: absolute;
+    font-size: 22px;
+    right: 10px;
+    bottom: 20px;
+
+    justify-content: center;
+    height: 30px;
+    align-items: center;
+
+    padding: 4px 10px 4px 10px;
+    border-radius: 100%;  
+    /* padding: 10px; */
+    cursor: pointer;
+
+    box-shadow: -2px 3px 3px 1px rgba(41, 40, 40, 0.396);
+}
+
+.addGroup:hover{
+    background-color: #4855b7d0;
+    -webkit-transition: background-color 1000ms linear;
+}
+
+.addGroup:active {
+    transform: scale(0.98);
+    /* Scaling button to 0.98 to its original size */
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+    /* Lowering the shadow */
+}

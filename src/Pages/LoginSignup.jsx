@@ -1,9 +1,10 @@
+import { Snackbar } from "@mui/material";
 import React, { useState } from "react";
 import { useEffect } from "react";
 
 import "./LoginSingup.css";
 
-const submit = async (text) => {
+const submit = async (text, updateOpenSnackbar, updatemsg) => {
   // console.log("On submit hura hua ahuhu ", text);
 
   let bool;
@@ -31,6 +32,10 @@ const submit = async (text) => {
         console.log("fetch error" + err);
       });
 
+    if (!data.result) {
+      updateOpenSnackbar(true);
+      updatemsg(data.message);
+    }
     // console.log("data is here >>>>>>", data);
 
     if (data.result) {
@@ -51,7 +56,7 @@ const submit = async (text) => {
   return bool;
 };
 
-const login = async (text) => {
+const login = async (text, updateOpenSnackbar, updatemsg) => {
   let bool;
   console.log("text", text);
   try {
@@ -71,18 +76,23 @@ const login = async (text) => {
       });
 
     // console.log("data is here >>>>>>", data);
+    if (!data.result) {
+      updateOpenSnackbar(true);
+      updatemsg(data.message);
+    }
 
     if (data.result) {
       // console.log(">>>>>", true);
       // return true;
       bool = true;
       window.localStorage.setItem("token", data.token);
+      window.localStorage.setItem("phone", text.phone);
     } else {
       // console.log(">>>>>", false);
       bool = false;
     }
   } catch (e) {
-    // console.log(">>>>>> e", e);
+    console.log(">>>>>> e", e);
 
     bool = false;
   }
@@ -94,6 +104,8 @@ const login = async (text) => {
 const LoginSignup = ({ updateLogin }) => {
   let [str, signinFunction] = useState("login");
 
+  let [openSnackbar, updateOpenSnackbar] = useState(false);
+  let [msg, updatemsg] = useState("");
   let [err, updateErr] = useState(false);
 
   let [signinText, updateSigninText] = useState({
@@ -123,6 +135,7 @@ const LoginSignup = ({ updateLogin }) => {
     phone: "",
     password: "",
   });
+  console.log("What happende", str);
 
   useEffect(() => {
     let temp = {
@@ -251,9 +264,10 @@ const LoginSignup = ({ updateLogin }) => {
   };
 
   const loginSubmitFunction = async (e) => {
+    console.log("in lofinSubmitFunction");
     e.preventDefault();
 
-    const bool = await login(loginText);
+    const bool = await login(loginText, updateOpenSnackbar, updatemsg);
 
     console.log("Loggedin", bool);
 
@@ -273,7 +287,7 @@ const LoginSignup = ({ updateLogin }) => {
     e.preventDefault();
     if (!err) {
       // console.log("CLicked to singup function", submit(signinText));
-      const bool = await submit(signinText);
+      const bool = await submit(signinText, updateOpenSnackbar, updatemsg);
       // console.log("CLicked to singup function ??", bool);
 
       if (bool) {
@@ -306,6 +320,7 @@ const LoginSignup = ({ updateLogin }) => {
 
   function intoThemain() {
     if (str === "login") {
+      console.log("inside login");
       return (
         <div>
           <form onSubmit={loginSubmitFunction}>
@@ -342,6 +357,7 @@ const LoginSignup = ({ updateLogin }) => {
               Don't have account Create one ?
             </div>
           </form>
+          {console.log("error here")}
         </div>
       );
     }
@@ -483,6 +499,14 @@ const LoginSignup = ({ updateLogin }) => {
           </div>
         </div>
         <div className="mainPart">{intoThemain()}</div>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={updateOpenSnackbar}
+          message={msg}
+          severity="warning"
+          // action={action}
+        />
       </div>
     </>
   );
