@@ -1,28 +1,29 @@
 import "./App.css";
 import Main from "./Pages2/Main";
+// import Main from "./Pages/Main" 
+
 import { Theme } from "./Context/Provider";
 import { useEffect, useState } from "react";
 import ColorMode from "./Theme/ColorMode";
 import LoginSignup from "./Pages/LoginSignup";
 
 function App() {
-  let [themeMode, changeTheme] = useState(
-    !window.matchMedia("(prefers-color-scheme: dark)").matches
-  );
+
+  let [themeMode, changeTheme] = useState(!window.matchMedia("(prefers-color-scheme: dark)").matches);
   let [login, updateLogin] = useState(false);
 
-  console.log(">>>>>", window.localStorage.getItem("user"));
+  // console.log(">>>>>", window.localStorage.getItem("user"));
   let phone = "";
   useEffect(() => {
     if (window.localStorage.getItem("token")) {
-      console.log("true h bhia h tur");
+      // console.log("true h bhia h tur");
       updateLogin(true);
       phone = window.localStorage.getItem("phone");
     }
   }, []);
 
-  console.log("phone", phone);
-  console.log("Login >>>", login);
+  // console.log("phone", phone);
+  // console.log("Login >>>", login);
   return (
     <Theme.Provider
       value={{

@@ -31,7 +31,7 @@ const fetchData = async () => {
 };
 
 // let data;
-const Left = ({ styles, updateGroup }) => {
+const Left = ({ styles, updateGroupToNavigate, updateGroupHide }) => {
   // console.log("renders")
 
   let [data, updateData] = useState();
@@ -40,24 +40,25 @@ const Left = ({ styles, updateGroup }) => {
     fetchData().then((data) => updateData(data["dataAsPerPhone"]));
   }, []);
 
-  console.log("data", data);
+  console.log("data",data);
 
   return (
     <div style={{ ...styles, position: "relative" }}>
       {data ? (
         <div>
           {data.map((x) => {
+            // console.log("members",x.members)
             return (
               <div
                 style={{
-                  backgroundColor: "blue",
+                  backgroundColor: "rgb(230,230,230)",
                   margin: 10,
                   padding: 10,
                   borderRadius: 8,
                   wordBreak: "break-word",
                   cursor: "pointer",
                 }}
-                onClick={() => updateGroup(x._id)}
+                onClick={() => updateGroupToNavigate({id : x._id, members : x.members, groupname : x.groupname})}
               >
                 {x["groupname"]}
               </div>
@@ -67,7 +68,13 @@ const Left = ({ styles, updateGroup }) => {
       ) : (
         void 0
       )}
-      <div className="addGroup" style={{ backgroundColor: "blue" }}>
+      <div
+        className="addGroup"
+        style={{ backgroundColor: "blue" }}
+        onClick={() => {
+          updateGroupHide(true);
+        }}
+      >
         {/* Add Group */}
         <div
           style={{

@@ -7,17 +7,14 @@ const fetchData = async (group) => {
     token: window.localStorage.getItem("token"),
     groupid: group,
   };
-  const data = await fetch(
-    "http://localhost:4444/api/v1/expenses/getexpenses",
-    {
-      method: "POST",
-      headers: {
-        Accept: "application.json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(text),
-    }
-  )
+  const data = await fetch("http://localhost:4444/api/v1/expenses/getexpenses", {
+    method: "POST",
+    headers: {
+      Accept: "application.json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(text),
+  })
     .then((response) => {
       return response.json();
     })
@@ -28,41 +25,70 @@ const fetchData = async (group) => {
   return data;
 };
 
-const Right = ({ styles, group }) => {
+const Right = ({ styles, groupToNavigate, updateExpenseHide }) => {
   // console.log("group", group);
-
+  console.log("???.../../ group to navigate", groupToNavigate);
   let [data, updateData] = useState();
 
-  useEffect( () => {
-    fetchData(group).then((data)=>
-    updateData(data["data"]));
+
+  useEffect(() => {
+    if (groupToNavigate) fetchData(groupToNavigate).then((data) => updateData(data["data"]));
   }, []);
 
-  console.log("all ezpenses", data);
+  // console.log("all ezpenses", data);
 
   return (
     <div style={styles}>
-      <div style={{ backgroundColor: "greenYellow" }}>
-        {data
-          ? data.map((x) => {
-              return <div style={{backgroundColor : "cyan", margin : 10, padding : 10}}>{x.expensename}</div>;
-            })
-          : void 0}
-      </div>
+      {/* Nothing to show content  */}
+      {groupToNavigate ? (
+        <div>
+          <div>{groupToNavigate.groupname}</div>
+          <div style={{ backgroundColor: "greenYellow" }}>
+            {data
+              ? data.map((x) => {
+                  return <div style={{ backgroundColor: "cyan", margin: 10, padding: 10 }}>{x.expensename}</div>;
+                })
+              : void 0}
+          </div>
 
-      <div className="addGroup" style={{ backgroundColor: "blue" }}>
-        {/* Add Expense */}
+          <div
+            className="addGroup"
+            style={{ backgroundColor: "blue" }}
+            onClick={() => {
+              // console.log("CLicked gere on righ");
+              updateExpenseHide(true);
+            }}
+          >
+            {/* Add Expense */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginLeft: 3,
+              }}
+            >
+              <FaPlus />
+            </div>
+          </div>
+        </div>
+      ) : (
         <div
           style={{
+            backgroundColor: "rgb(230,230,230)",
+            height: 300,
+            width: 300,
+            margin: "auto",
+            position: "relative",
+            top: "30%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            marginLeft: 3,
           }}
         >
-          <FaPlus />
+          No group Selected, select a group
         </div>
-      </div>
+      )}
     </div>
   );
 };

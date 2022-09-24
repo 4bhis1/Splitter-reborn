@@ -58,7 +58,7 @@ const submit = async (text, updateOpenSnackbar, updatemsg) => {
 
 const login = async (text, updateOpenSnackbar, updatemsg) => {
   let bool;
-  console.log("text", text);
+  // console.log("text", text);
   try {
     const data = await fetch("http://localhost:4444/api/v1/users/login", {
       method: "POST",
@@ -135,7 +135,7 @@ const LoginSignup = ({ updateLogin }) => {
     phone: "",
     password: "",
   });
-  console.log("What happende", str);
+  // console.log("What happende", str);
 
   useEffect(() => {
     let temp = {
@@ -264,12 +264,12 @@ const LoginSignup = ({ updateLogin }) => {
   };
 
   const loginSubmitFunction = async (e) => {
-    console.log("in lofinSubmitFunction");
+    // console.log("in lofinSubmitFunction");
     e.preventDefault();
 
     const bool = await login(loginText, updateOpenSnackbar, updatemsg);
 
-    console.log("Loggedin", bool);
+    // console.log("Loggedin", bool);
 
     const temp = {
       phone: "",
@@ -320,7 +320,7 @@ const LoginSignup = ({ updateLogin }) => {
 
   function intoThemain() {
     if (str === "login") {
-      console.log("inside login");
+      // console.log("inside login");
       return (
         <div>
           <form onSubmit={loginSubmitFunction}>
@@ -357,7 +357,6 @@ const LoginSignup = ({ updateLogin }) => {
               Don't have account Create one ?
             </div>
           </form>
-          {console.log("error here")}
         </div>
       );
     }

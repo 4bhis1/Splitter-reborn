@@ -49,7 +49,7 @@ const Nav = ({ result, updateResult, primary, changeTheme, themeMode }) => {
       </div>
       <div
         onClick={() => {
-          console.log("Clicked geremf");
+          console.log("Clicked logout.. will logout");
           localStorage.removeItem("token");
           updateLogin(false);
         }}
