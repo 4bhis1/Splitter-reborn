@@ -1,6 +1,7 @@
 import { Snackbar } from "@mui/material";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { ip } from "../config";
 
 import "./LoginSingup.css";
 
@@ -17,7 +18,7 @@ const submit = async (text, updateOpenSnackbar, updatemsg) => {
     temp.phone = text.phone;
     temp.password = text.password;
 
-    const data = await fetch("http://localhost:4444/api/v1/users/register", {
+    const data = await fetch(`${ip}/api/v1/users/register`, {
       method: "POST",
       headers: {
         Accept: "application.json",
@@ -60,7 +61,7 @@ const login = async (text, updateOpenSnackbar, updatemsg) => {
   let bool;
   // console.log("text", text);
   try {
-    const data = await fetch("http://localhost:4444/api/v1/users/login", {
+    const data = await fetch(`${ip}/api/v1/users/login`, {
       method: "POST",
       headers: {
         Accept: "application.json",
@@ -162,11 +163,7 @@ const LoginSignup = ({ updateLogin }) => {
     let atposition = x.indexOf("@");
     // console.log(x, atposition);
     let dotposition = x.lastIndexOf(".");
-    if (
-      atposition < 1 ||
-      dotposition < atposition + 2 ||
-      dotposition + 2 >= x.length
-    ) {
+    if (atposition < 1 || dotposition < atposition + 2 || dotposition + 2 >= x.length) {
       err = true;
       temp.email = "Email is invalid";
     } else {
@@ -465,17 +462,11 @@ const LoginSignup = ({ updateLogin }) => {
                 value={signinText.confirmPassword}
                 required
               />
-              <div className="helperText">
-                {helperSigninText.confirmPassword}
-              </div>
+              <div className="helperText">{helperSigninText.confirmPassword}</div>
             </div>
           </div>
           <br />
-          <input
-            type="submit"
-            value="Create Your Account"
-            className="formButton"
-          />
+          <input type="submit" value="Create Your Account" className="formButton" />
 
           <div onClick={loginButton} className="loginText">
             Login ?

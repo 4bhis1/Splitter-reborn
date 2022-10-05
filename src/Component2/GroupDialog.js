@@ -1,5 +1,6 @@
 import { Dialog } from "@mui/material";
 import React, { useState } from "react";
+import { ip } from "../config";
 
 function Group(props) {
   const { groupHide, updateGroupHide } = props;
@@ -106,7 +107,7 @@ function Group(props) {
             console.log(parseInt(Math.random() * 1000));
             console.log(window.localStorage.getItem("token"));
             let data;
-            fetch("http://localhost:4444/api/v1/groups/creategroup", {
+            fetch(`${ip}/api/v1/groups/creategroup`, {
               method: "POST",
               headers: {
                 Accept: "application.json",

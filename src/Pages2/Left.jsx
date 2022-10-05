@@ -3,6 +3,7 @@ import "./Left.css";
 import { FaAngleLeft, FaPlus } from "react-icons/fa";
 import { useEffect } from "react";
 import { useState } from "react";
+import { ip } from "../config";
 
 const fetchData = async () => {
   const text = {
@@ -12,7 +13,7 @@ const fetchData = async () => {
 
   if (text.token === undefined && text.phone === undefined) return void 0;
 
-  const data = await fetch("http://localhost:4444/api/v1/groups/showgroup", {
+  const data = await fetch(`${ip}/api/v1/groups/showgroup`, {
     method: "POST",
     headers: {
       Accept: "application.json",
@@ -40,10 +41,23 @@ const Left = ({ styles, updateGroupToNavigate, updateGroupHide }) => {
     fetchData().then((data) => updateData(data["dataAsPerPhone"]));
   }, []);
 
-  console.log("data",data);
+  console.log("data", data);
 
   return (
     <div style={{ ...styles, position: "relative" }}>
+      <div
+        style={{
+          backgroundColor: "rgb(200,200,200)",
+          margin: 10,
+          padding: 30,
+          borderRadius: 8,
+          wordBreak: "break-word",
+          cursor: "pointer",
+        }}
+        onClick={() => updateGroupToNavigate({ PE: true })}
+      >
+        Personal Expense
+      </div>
       {data ? (
         <div>
           {data.map((x) => {
@@ -53,12 +67,12 @@ const Left = ({ styles, updateGroupToNavigate, updateGroupHide }) => {
                 style={{
                   backgroundColor: "rgb(230,230,230)",
                   margin: 10,
-                  padding: 10,
+                  padding: 30,
                   borderRadius: 8,
                   wordBreak: "break-word",
                   cursor: "pointer",
                 }}
-                onClick={() => updateGroupToNavigate({id : x._id, members : x.members, groupname : x.groupname})}
+                onClick={() => updateGroupToNavigate({ id: x._id, members: x.members, groupname: x.groupname })}
               >
                 {x["groupname"]}
               </div>
@@ -70,22 +84,21 @@ const Left = ({ styles, updateGroupToNavigate, updateGroupHide }) => {
       )}
       <div
         className="addGroup"
-        style={{ backgroundColor: "blue" }}
+        style={{
+          backgroundColor: "blue",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          // padding : 20,
+          fontSize : 30,
+          padding : 15,
+          margin : 20
+        }}
         onClick={() => {
           updateGroupHide(true);
         }}
       >
-        {/* Add Group */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginLeft: 3,
-          }}
-        >
-          <FaPlus />
-        </div>
+        <FaPlus />
       </div>
     </div>
   );

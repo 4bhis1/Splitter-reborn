@@ -1,6 +1,8 @@
 import { Dialog } from "@mui/material";
 import { useState } from "react";
 
+import {ip} from  "../config"
+
 function ExpenseGroup(props) {
   const { expenseHide, updateExpenseHide, data: tempData } = props;
 
@@ -26,7 +28,7 @@ function ExpenseGroup(props) {
   if (SelectAll["selectAll"]) {
     for (let i in data) {
       SelectAll[i] = true;
-      text[i]=text[i] ? text[i] : 0
+      text[i] = text[i] ? text[i] : 0;
     }
     // console.log("inside this", SelectAll);
   } else {
@@ -107,43 +109,44 @@ function ExpenseGroup(props) {
             </div>
             <button
               onClick={() => {
-                  console.log("text", text);
-                  console.log("check", SelectAll);
-                  let arr = [];
-                  
-                  for (let i in SelectAll) {
-                      if (SelectAll[i] === true && i !== "selectAll") {
-                          console.log("Select All", SelectAll[i]);
-                          console.log("data [ i ]", i, data[i]);
-                          const temp = { name: data[i]["membersfirstname"], amount: parseInt(text[i]), phone: data[i].phone };
-                          arr.push(temp);
-                        }
-                    }
-                    
-                    console.log("array", arr);
-                    
-                    fetch("http://localhost:4444/api/v1/expenses/createexpense", {
-                        method: "POST",
-                        headers: {
-                            Accept: "application.json",
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            token: window.localStorage.getItem("token"),
-                            expensename: text["expense"],
-                            groupid: tempData["id"],
-                            expense: arr,
-                            image: 18,
-                        }),
-                    })
-                    .then((response) => {
-                        data = response.json();
-                    })
-                    .catch((err) => {
-                        console.log("fetch error" + err);
-                    });
-                    handleClose();
-                }}
+                console.log("text", text);
+                console.log("check", SelectAll);
+                let arr = [];
+
+                for (let i in SelectAll) {
+                  if (SelectAll[i] === true && i !== "selectAll") {
+                    console.log("Select All", SelectAll[i]);
+                    console.log("data [ i ]", i, data[i]);
+                    const temp = { name: data[i]["membersfirstname"], amount: parseInt(text[i]), phone: data[i].phone };
+                    arr.push(temp);
+                  }
+                }
+
+                // console.log("array", arr);
+
+                fetch(`${ip}/api/v1/expenses/createexpense`, {
+                  method: "POST",
+                  headers: {
+                    Accept: "application.json",
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    token: window.localStorage.getItem("token"),
+                    expensename: text["expense"],
+                    groupid: tempData["id"],
+                    expense: arr,
+                    image: 18,
+                  }),
+                })
+                  .then((response) => {
+                    data = response.json();
+                  })
+                  .catch((err) => {
+                    console.log("fetch error" + err);
+                  });
+                handleClose();
+
+              }}
             >
               Submit
             </button>

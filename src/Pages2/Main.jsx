@@ -12,23 +12,24 @@ const Main = () => {
   let [groupHide, updateGroupHide] = useState(false);
 
   return (
-    <div style={{ height: "100vh", width: "100vw", backgroundColor: "#c0c0c0" }}>
+    <div style={{ height: "100vh", width: "100vw", backgroundColor: "#c0c0c0", overflow: "hidden" }}>
       <Nav
         styles={{
           width: "100%",
           backgroundColor: "white",
           maxHeight: 50,
           minHeight: "10%",
+          borderBottom: "solid",
         }}
       />
       <div style={{ display: "flex", height: "90%" }}>
         <Left
-          styles={{ width: "40%", backgroundColor: "white" }}
+          styles={{ width: "35%", backgroundColor: "white", borderRight: "solid" }}
           updateGroupToNavigate={updateGroupToNavigate}
           updateGroupHide={updateGroupHide}
         />
         <Right
-          styles={{ width: "60%", backgroundColor: "rgb(243 239 239)" }}
+          styles={{ width: "65%", backgroundColor: "rgb(243 239 239)" }}
           groupToNavigate={groupToNavigate}
           updateExpenseHide={updateExpenseHide}
         />
