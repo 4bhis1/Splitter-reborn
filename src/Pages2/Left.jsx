@@ -138,6 +138,7 @@ const Left = ({ styles, updateGroupToNavigate, updateGroupHide, groupToNavigate,
             >
               Logout
             </MenuItem>
+            <MenuItem onClick={handleClose}>About</MenuItem>
           </Menu>
         </div>
       </div>

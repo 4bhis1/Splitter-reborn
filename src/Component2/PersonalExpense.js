@@ -9,7 +9,13 @@ import { CashOutDialog } from "./CashOutDialog";
 const PersonalExpense = () => {
   const data = useContext(Theme);
 
-  const [useExpense, updateUserEpense] = useState();
+  const [hideCashIn, updateHideCashIn] = useState(false);
+  const [hideCashOut, updateHideCashOut] = useState(false);
+
+  const [useExpense, updateUserExpense] = useState();
+
+  let Gain = 0;
+  let Loss = 0;
 
   useEffect(() => {
     fetch(`${ip}/api/v1/PE/showexpenses`, {
@@ -25,20 +31,61 @@ const PersonalExpense = () => {
     })
       .then((temp) => temp.json())
       .then((temp) => {
-        updateUserEpense(temp["data"]);
+        updateUserExpense(temp["data"]);
         // data = temp;
       });
-  }, []);
+  }, [hideCashIn, hideCashOut]);
 
-  // console.log("??? useexpense", useExpense);
+  if (useExpense) {
+    useExpense.map((x) => {
+      Gain += x["credit"];
+      Loss += x["debit"];
+    });
+  }
+
+  const RenderCard = (props) => {
+    let str = "",
+      amnt = "";
+    if (props.Loss) {
+      str = "Loss";
+      amnt = props.Loss;
+    } else {
+      str = "Gain";
+      amnt = props.Gain;
+    }
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <div style={{ fontSize: 20, fontWeight: "bold" }}>{str}</div>
+        <div>{amnt}</div>
+      </div>
+    );
+  };
 
   return (
     <div style={{ height: "100%", flexDirection: "column", display: "flex" }}>
       {useExpense && !!useExpense.length ? (
         <div style={{ flex: 1, overflow: "scroll", overflowX: "hidden" }}>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <div style={{ backgroundColor: "white", padding: 20, width: 300, margin: 20, marginTop: 40 }}>
-              No data yer
+            <div
+              style={{
+                backgroundColor: "white",
+                padding: 20,
+                width: 300,
+                margin: 20,
+                marginTop: 40,
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+                <RenderCard Gain={Gain} />
+                <RenderCard Loss={Loss} />
+              </div>
+              <div style={{ cursor: "pointer" }}>Graph</div>
             </div>
           </div>
           {useExpense
@@ -53,10 +100,14 @@ const PersonalExpense = () => {
                           justifyContent: "space-between",
                           margin: 30,
                           padding: 10,
+                          marginBottom: -15,
                         }}
                       >
-                        <div>{x["debitType"]}</div>
-                        <div>{x["debit"]}</div>
+                        <div>
+                          <div style={{ fontSize: 20 }}>{x["expensename"]}</div>
+                          <div style={{ fontSize: 17 }}>{x["description"]}</div>
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", fontSize: 25 }}>{x["debit"]}</div>
                       </div>
                     ) : (
                       <div
@@ -66,10 +117,14 @@ const PersonalExpense = () => {
                           justifyContent: "space-between",
                           margin: 30,
                           padding: 10,
+                          marginBottom: -15,
                         }}
                       >
-                        <div>{x["debitType"]}</div>
-                        <div>{x["debit"]}</div>
+                        <div>
+                          <div style={{ fontSize: 20 }}>{x["expensename"]}</div>
+                          <div style={{ fontSize: 17 }}>{x["description"]}</div>
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", fontSize: 25 }}>{x["credit"]}</div>
                       </div>
                     )}
                   </div>
@@ -104,7 +159,8 @@ const PersonalExpense = () => {
         <div
           style={{ ...inlineStyles.bottomTextStyle, backgroundColor: "green" }}
           onClick={() => {
-            console.log("Clicked in cash in");
+            // console.log("Clicked in cash in");
+            updateHideCashIn(true);
           }}
         >
           + Cash In
@@ -112,14 +168,15 @@ const PersonalExpense = () => {
         <div
           style={{ ...inlineStyles.bottomTextStyle, backgroundColor: "red" }}
           onClick={() => {
-            console.log("Clicked in cash out");
+            // console.log("Clicked in cash out");
+            updateHideCashOut(true);
           }}
         >
           - Cash Out
         </div>
       </div>
-      <CashInDialog />
-      <CashOutDialog />
+      <CashInDialog hideCashIn={hideCashIn} updateHideCashIn={updateHideCashIn} />
+      <CashOutDialog hideCashOut={hideCashOut} updateHideCashOut={updateHideCashOut} />
     </div>
   );
 };

@@ -48,11 +48,12 @@ const Right = ({ styles, groupToNavigate, updateExpenseHide, expenseHide }) => {
         <div style={{ width: "80%" }}>
           {data && !!data["data"].length ? (
             data["data"].map((x, y) => {
-              // console.log(x);
+              console.log(x);
               let date = x.createdon.substr(0, 10);
               let mainobj = "";
-              if (x["expense"][0]["name"] !== "You") mainobj = "You are not involved in this budget";
-              else mainobj = x["expense"][0]["name"] + " paid " + x["expense"][0]["amount"];
+              if (!!x["expense"].length && x["expense"][0]["name"] !== "You")
+                mainobj = "You are not involved in this budget";
+              else if (!!x["expense"].length) mainobj = x["expense"][0]["name"] + " paid " + x["expense"][0]["amount"];
               return (
                 <div
                   key={y}
