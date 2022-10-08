@@ -12,8 +12,31 @@ const Main = () => {
   let [groupHide, updateGroupHide] = useState(false);
 
   return (
-    <div style={{ height: "100vh", width: "100vw", backgroundColor: "#c0c0c0", overflow: "hidden" }}>
-      <Nav
+    <div>
+      <div
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "30%",
+          zIndex: 0,
+          backgroundColor: "#a3d9a3",
+          // opacity: 0.6,
+        }}
+      />
+
+      <div
+        style={{
+          height: "100vh",
+          width: "100vw",
+          backgroundColor: "#c0c0c0",
+          overflow: "hidden",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          zIndex: 1,
+        }}
+      >
+        {/* <Nav
         styles={{
           width: "100%",
           backgroundColor: "white",
@@ -21,22 +44,36 @@ const Main = () => {
           minHeight: "10%",
           borderBottom: "solid",
         }}
-      />
-      <div style={{ display: "flex", height: "90%" }}>
-        <Left
-          styles={{ width: "35%", backgroundColor: "white", borderRight: "solid" }}
-          updateGroupToNavigate={updateGroupToNavigate}
-          updateGroupHide={updateGroupHide}
-        />
-        <Right
-          styles={{ width: "65%", backgroundColor: "rgb(243 239 239)" }}
-          groupToNavigate={groupToNavigate}
-          updateExpenseHide={updateExpenseHide}
-        />
-      </div>
+      /> */}
 
-      <Group groupHide={groupHide} updateGroupHide={updateGroupHide} />
-      <ExpenseGroup expenseHide={expenseHide} updateExpenseHide={updateExpenseHide} data={groupToNavigate} />
+        <div
+          style={{
+            display: "flex",
+            height: "98%",
+            width: "95%",
+            position: "relative",
+            marginTop: "2%",
+            borderTopLeftRadius: 10,
+          }}
+        >
+          <Left
+            styles={{ width: "35%", backgroundColor: "white", borderRight: "solid", borderTopLeftRadius: 10 }}
+            updateGroupToNavigate={updateGroupToNavigate}
+            groupToNavigate={groupToNavigate}
+            groupHide={groupHide}
+            updateGroupHide={updateGroupHide}
+          />
+          <Right
+            styles={{ width: "65%", backgroundColor: "rgb(243 239 239)", height: "100%" }}
+            groupToNavigate={groupToNavigate}
+            updateExpenseHide={updateExpenseHide}
+            expenseHide={expenseHide}
+          />
+        </div>
+
+        <Group groupHide={groupHide} updateGroupHide={updateGroupHide} />
+        <ExpenseGroup expenseHide={expenseHide} updateExpenseHide={updateExpenseHide} data={groupToNavigate} />
+      </div>
     </div>
   );
 };

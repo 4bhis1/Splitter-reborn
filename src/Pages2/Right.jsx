@@ -1,72 +1,22 @@
-import { ConstructionOutlined, ContactPageSharp, ResetTvOutlined } from "@mui/icons-material";
-import { autocompleteClasses, Dialog } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { FaAngleLeft, FaPlus } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
+import DialogOfExpense from "../Component2/DialogsOfExpense";
+import PersonalExpense from "../Component2/PersonalExpense";
 import { ip } from "../config";
 
-const DialogOfExpense = (props) => {
-  const { hide, hideFunc, data } = props;
+import pic1 from "../Images/select-a-tab.png";
+import pic2 from "../Images/no-data-found.png";
 
-  const handleClose = () => {
-    hideFunc((data) => {
-      return { ...data, show: false };
-    });
-  };
-
-  console.log("data here", data);
-
-  return (
-    <Dialog onClose={handleClose} open={hide}>
-      <div style={{ padding: 10 }}>
-        {data ? (
-          <div>
-            <div>{data.expensename}</div>
-
-            <div style={{ marginLeft: 30, marginRight: 10 }}>
-              {data.expense.map((x, y) => {
-                return (
-                  <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <div>{x.name}</div>
-                    <div>{x.amount}</div>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div style={{ fontSize: 17, marginTop: 10 }}>Chat section</div>
-            <div style={{ padding: 10, width: 400 }}>
-              <div style={{ maxHeight: 200, minHeight: 60, backgroundColor: "yellowgreen" }}>
-                yha apna chat section rahega
-              </div>
-
-              <div style={{ display: "flex" }}>
-                <div>
-                  <input type="text" />
-                </div>
-                <div>Submit</div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div></div>
-        )}
-      </div>
-    </Dialog>
-  );
-};
-
-const Right = ({ styles, groupToNavigate, updateExpenseHide }) => {
-  // console.log("???.../../ group to navigate", groupToNavigate);
-
+const Right = ({ styles, groupToNavigate, updateExpenseHide, expenseHide }) => {
   let [showExpenseDialog, updateShowExpenseDialog] = useState({ show: false, data: "" });
-
   let [data, updateData] = useState();
+
+  let [showPEDialog, updateShowPEDialog] = useState({ show: false, data: "" });
 
   // const [PE,upda]
 
   useEffect(() => {
     if (groupToNavigate && groupToNavigate["PE"]) {
-      console.log("PE portal me aa gya");
     } else if (groupToNavigate) {
       const text = {
         token: window.localStorage.getItem("token"),
@@ -88,14 +38,14 @@ const Right = ({ styles, groupToNavigate, updateExpenseHide }) => {
           updateData(data["final"]);
         });
     }
-  }, [groupToNavigate]);
+  }, [groupToNavigate, expenseHide]);
 
   // console.log("all ezpenses >>>>>>>>>>>>", data);
 
   const ShowData = () => {
     return (
-      <div style={{ display: "flex", justifyContent: "center", overflow: "scroll", overflowX: "hidden" }}>
-        <div style={{ backgroundColor: "greenYellow", height: 510, width: "80%" }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <div style={{ width: "80%" }}>
           {data && !!data["data"].length ? (
             data["data"].map((x, y) => {
               // console.log(x);
@@ -105,6 +55,7 @@ const Right = ({ styles, groupToNavigate, updateExpenseHide }) => {
               else mainobj = x["expense"][0]["name"] + " paid " + x["expense"][0]["amount"];
               return (
                 <div
+                  key={y}
                   style={{
                     backgroundColor: "cyan",
                     margin: 10,
@@ -115,7 +66,7 @@ const Right = ({ styles, groupToNavigate, updateExpenseHide }) => {
                   }}
                   onClick={() => {
                     updateShowExpenseDialog({ show: true, data: x });
-                    console.log("clicked and the data is - >", x);
+                    // console.log("clicked and the data is - >", x);
                   }}
                 >
                   <div
@@ -167,77 +118,109 @@ const Right = ({ styles, groupToNavigate, updateExpenseHide }) => {
   };
 
   return (
-    <div style={styles}>
+    <div style={{ ...styles }}>
       {/* Nothing to show content  */}
       {groupToNavigate ? (
-        <div>
+        <div style={{ height: "100%" }}>
           {groupToNavigate["PE"] ? (
-            <div>Perosnal Expense aa jayega yha pe kya load h</div>
+            <PersonalExpense />
           ) : (
-            <div>
-              <div style={{ backgroundColor: "rgb(255,255,255)", padding: 10, height: 50 }}>
-                {groupToNavigate.groupname}
-              </div>
-
+            <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
               <div
                 style={{
-                  width: "70%",
-                  margin: "auto",
-                  marginTop: -20,
-                  marginBottom: 20,
-                  backgroundColor: "tomato",
-                  padding: 20,
-                  borderRadius: 10,
+                  height: 40,
+                  backgroundColor: "Green",
+                  padding: 10,
+                  display: "flex",
+                  alignItems: "center",
+                  // justifyContent: "space-between",
+                  fontSize: 22,
+                  fontWeight: 400,
+                  paddingLeft: 20,
                 }}
               >
-                {data && data["result"] && !!data["result"]["result"].length ? (
-                  data["result"]["result"].map((x, y) => {
-                    return <div>{x}</div>;
-                  })
+                {groupToNavigate.groupname}
+              </div>
+              <div style={{ overflow: "scroll", overflowX: "hidden", flex: 1 }}>
+                {data && !!data["data"].length ? (
+                  <div>
+                    {data && data["result"] && !!data["result"]["result"].length ? (
+                      <div
+                        style={{
+                          width: "70%",
+                          margin: "auto",
+                          marginTop: 20,
+                          marginBottom: 20,
+                          backgroundColor: "tomato",
+                          padding: 20,
+                          borderRadius: 10,
+                        }}
+                      >
+                        {data["result"]["result"].map((x, y) => {
+                          return <div key={y}>{x}</div>;
+                        })}
+                      </div>
+                    ) : (
+                      void 0
+                    )}
+                    <ShowData />
+                  </div>
                 ) : (
-                  <div>No Records yet</div>
+                  <div
+                    style={{
+                      margin: "auto",
+                      position: "relative",
+                      top: "30%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <img src={pic2} height="250px" />
+                  </div>
                 )}
               </div>
-              <ShowData />
+              <div
+                className="addGroup"
+                style={{
+                  backgroundColor: "orange",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  // padding : 20,
+                  fontSize: 30,
+                  padding: 15,
+                  // margin: 20,
+                  marginRight: 10,
+                }}
+                onClick={() => {
+                  updateExpenseHide(true);
+                  // updateData([]);
+                }}
+              >
+                <FaPlus />
+              </div>
             </div>
           )}
-          <div
-            className="addGroup"
-            style={{
-              backgroundColor: "orange",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              // padding : 20,
-              fontSize: 30,
-              padding: 15,
-              margin: 20,
-            }}
-            onClick={() => {
-              groupToNavigate["PE"] ? console.log("Haa pE ka data load kr k bhejenge") : updateExpenseHide(true);
-              // updateData([]);
-            }}
-          >
-            <FaPlus />
-          </div>
         </div>
       ) : (
         <div
           style={{
-            backgroundColor: "rgb(230,230,230)",
-            height: 300,
-            width: 300,
             margin: "auto",
             position: "relative",
-            top: "30%",
+            top: "15%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            flexDirection: "column",
           }}
         >
-          No group Selected, select a group
+          <img src={pic1} />
+          Select a tab
         </div>
       )}
+
       <DialogOfExpense hide={showExpenseDialog.show} hideFunc={updateShowExpenseDialog} data={showExpenseDialog.data} />
     </div>
   );

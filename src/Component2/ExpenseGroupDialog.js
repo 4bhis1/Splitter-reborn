@@ -1,12 +1,10 @@
 import { Dialog } from "@mui/material";
 import { useState } from "react";
 
-import {ip} from  "../config"
+import { ip } from "../config";
 
 function ExpenseGroup(props) {
   const { expenseHide, updateExpenseHide, data: tempData } = props;
-
-  console.log("--->tempdata", tempData);
 
   const [text, updateText] = useState({
     expense: "",
@@ -145,7 +143,6 @@ function ExpenseGroup(props) {
                     console.log("fetch error" + err);
                   });
                 handleClose();
-
               }}
             >
               Submit
