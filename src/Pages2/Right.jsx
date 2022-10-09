@@ -6,12 +6,17 @@ import { ip } from "../config";
 
 import pic1 from "../Images/select-a-tab.png";
 import pic2 from "../Images/no-data-found.png";
+import GroupDetails from "../Component2/GroupDetails";
 
 const Right = ({ styles, groupToNavigate, updateExpenseHide, expenseHide }) => {
   let [showExpenseDialog, updateShowExpenseDialog] = useState({ show: false, data: "" });
   let [data, updateData] = useState();
 
+  let [showDetails, updateShowDetails] = useState(false);
+
   // const [PE,upda]
+
+  // console.log("@@@ group to navigate", groupToNavigate);
 
   useEffect(() => {
     if (groupToNavigate && groupToNavigate["PE"]) {
@@ -135,6 +140,10 @@ const Right = ({ styles, groupToNavigate, updateExpenseHide, expenseHide }) => {
                   fontSize: 22,
                   fontWeight: 400,
                   paddingLeft: 20,
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  updateShowDetails(true);
                 }}
               >
                 {groupToNavigate.groupname}
@@ -218,7 +227,7 @@ const Right = ({ styles, groupToNavigate, updateExpenseHide, expenseHide }) => {
           Select a tab
         </div>
       )}
-
+      <GroupDetails hide={showDetails} hideFunc={updateShowDetails} data={groupToNavigate} />
       <DialogOfExpense hide={showExpenseDialog.show} hideFunc={updateShowExpenseDialog} data={showExpenseDialog.data} />
     </div>
   );

@@ -100,13 +100,20 @@ const DialogOfExpense = (props) => {
                               maxWidth: "80%",
                               padding: 4,
                               borderRadius: 6,
+                              display: "flex",
+                              flexDirection: "column",
                             }}
                           >
-                            {x.name}
+                            {x.phone != userPhone ? (
+                              <div style={{ fontSize: 15, color: "#001cff", textDecoration: "underline" }}>
+                                {x.name}
+                              </div>
+                            ) : (
+                              void 0
+                            )}
 
-                            {x.text}
-
-                            {x.chatdate}
+                            <div style={{ paddingLeft: 4 }}>{x.text}</div>
+                            <div style={{ fontSize: 12, textAlign: "right" }}>{x.chatdate.substring(11)}</div>
                           </div>
                         </div>
                       );
