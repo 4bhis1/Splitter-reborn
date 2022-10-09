@@ -17,6 +17,8 @@ const PersonalExpense = () => {
   let Gain = 0;
   let Loss = 0;
 
+  let TotalLeft = 0;
+
   useEffect(() => {
     fetch(`${ip}/api/v1/PE/showexpenses`, {
       method: "POST",
@@ -41,12 +43,14 @@ const PersonalExpense = () => {
       Gain += x["credit"];
       Loss += x["debit"];
     });
+
+    TotalLeft = Gain - Loss;
   }
 
   const RenderCard = (props) => {
     let str = "",
       amnt = "";
-    if (props.Loss) {
+    if (props.Loss || props.Loss === 0) {
       str = "Loss";
       amnt = props.Loss;
     } else {
@@ -85,7 +89,10 @@ const PersonalExpense = () => {
                 <RenderCard Gain={Gain} />
                 <RenderCard Loss={Loss} />
               </div>
-              <div style={{ cursor: "pointer" }}>Graph</div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div style={{ cursor: "pointer" }}>Graph</div>
+                <div>{TotalLeft}</div>
+              </div>
             </div>
           </div>
           {useExpense

@@ -12,13 +12,11 @@ import { ip } from "./config";
 function App() {
   let [themeMode, changeTheme] = useState(!window.matchMedia("(prefers-color-scheme: dark)").matches);
   let [login, updateLogin] = useState(false);
-  let phone = "";
+  let phone = window.localStorage.getItem("phone");
 
   let [userData, updateUserData] = useState({});
   useEffect(() => {
     if (window.localStorage.getItem("token")) {
-      phone = window.localStorage.getItem("phone");
-
       fetch(`${ip}/api/v1/users/getdata`, {
         method: "POST",
         headers: {

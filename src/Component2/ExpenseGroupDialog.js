@@ -1,16 +1,39 @@
 import { Dialog } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { ip } from "../config";
+import { Theme } from "../Context/Provider";
 
 function ExpenseGroup(props) {
-  const { expenseHide, updateExpenseHide, data: tempData } = props;
+  const { expenseHide, updateExpenseHide, data: newData } = props;
+
+  // let newData = tempData;
+
+  let { userPhone, firstname } = useContext(Theme);
+
+  // console.log("??? tenpData before", newData);
+
+  // let store1 = "";
+  // if (newData && newData["members"] && newData["members"][0] && newData["members"][0]["membersfirstname"] !== "You") {
+  //   console.log("@@@ inside if");
+  //   for (let i in newData["members"]) {
+  //     if (newData["members"][i]["phone"] == userPhone) {
+  //       firstname = newData["members"][i]["membersfirstname"];
+  //       store1 = { ...newData["members"][i], membersfirstname: "You" };
+  //       newData["members"].splice(i, i);
+  //       console.log("?@@@ newData", newData["members"], newData["members"].length);
+  //     }
+  //   }
+  //   newData["members"].unshift(store1);
+  // }
+
+  // console.log("@@@ tempData", newData);
 
   const [text, updateText] = useState({
     expense: "",
   });
 
-  let data = tempData && tempData.members;
+  let data = newData && newData.members;
 
   let [SelectAll, updateSelectAll] = useState({ selectAll: false });
   //   let [text,updateText]=useState({})
@@ -46,7 +69,7 @@ function ExpenseGroup(props) {
 
   return (
     <Dialog onClose={handleClose} open={expenseHide}>
-      <div className="inputShow">
+      <div className="inputShow" style={{ padding: 20 }}>
         <div
           style={{
             paddingRight: "10px",
@@ -92,7 +115,7 @@ function ExpenseGroup(props) {
                         </div>
                         <input
                           type="number"
-                          style={{ width: 40 }}
+                          style={{ width: 50 }}
                           placeholder="0"
                           value={text[y]}
                           onChange={(e) => {
@@ -106,16 +129,21 @@ function ExpenseGroup(props) {
                 : void 0}
             </div>
             <button
+              style={{ marginTop: 10 }}
               onClick={() => {
-                console.log("text", text);
-                console.log("check", SelectAll);
+                // console.log("text", text);
+                // console.log("check", SelectAll);
                 let arr = [];
 
                 for (let i in SelectAll) {
                   if (SelectAll[i] === true && i !== "selectAll") {
-                    console.log("Select All", SelectAll[i]);
-                    console.log("data [ i ]", i, data[i]);
-                    const temp = { name: data[i]["membersfirstname"], amount: parseInt(text[i]), phone: data[i].phone };
+                    // console.log("Select All", SelectAll[i]);
+                    // console.log("data [ i ]", i, data[i]);
+                    let temp;
+                    if (data[i]["membersfirstname"] === "You")
+                      temp = { name: firstname, amount: parseInt(text[i]), phone: data[i].phone };
+                    else temp = { name: data[i]["membersfirstname"], amount: parseInt(text[i]), phone: data[i].phone };
+
                     arr.push(temp);
                   }
                 }
@@ -131,7 +159,7 @@ function ExpenseGroup(props) {
                   body: JSON.stringify({
                     token: window.localStorage.getItem("token"),
                     expensename: text["expense"],
-                    groupid: tempData["id"],
+                    groupid: newData["id"],
                     expense: arr,
                     image: 18,
                   }),

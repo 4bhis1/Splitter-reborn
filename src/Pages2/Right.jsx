@@ -11,8 +11,6 @@ const Right = ({ styles, groupToNavigate, updateExpenseHide, expenseHide }) => {
   let [showExpenseDialog, updateShowExpenseDialog] = useState({ show: false, data: "" });
   let [data, updateData] = useState();
 
-  let [showPEDialog, updateShowPEDialog] = useState({ show: false, data: "" });
-
   // const [PE,upda]
 
   useEffect(() => {
@@ -40,7 +38,7 @@ const Right = ({ styles, groupToNavigate, updateExpenseHide, expenseHide }) => {
     }
   }, [groupToNavigate, expenseHide]);
 
-  // console.log("all ezpenses >>>>>>>>>>>>", data);
+  console.log("all ezpenses >>>>>>>>>>>>", data);
 
   const ShowData = () => {
     return (
@@ -48,7 +46,6 @@ const Right = ({ styles, groupToNavigate, updateExpenseHide, expenseHide }) => {
         <div style={{ width: "80%" }}>
           {data && !!data["data"].length ? (
             data["data"].map((x, y) => {
-              console.log(x);
               let date = x.createdon.substr(0, 10);
               let mainobj = "";
               if (!!x["expense"].length && x["expense"][0]["name"] !== "You")
@@ -217,7 +214,7 @@ const Right = ({ styles, groupToNavigate, updateExpenseHide, expenseHide }) => {
             flexDirection: "column",
           }}
         >
-          <img src={pic1} />
+          <img src={pic1} height="40%" width="80%" />
           Select a tab
         </div>
       )}

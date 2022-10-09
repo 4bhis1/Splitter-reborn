@@ -21,7 +21,7 @@ export const CashOutDialog = (props) => {
   return (
     <Dialog onClose={handleClose} open={hideCashOut}>
       <div style={{ display: "flex", flexDirection: "column", padding: 20 }}>
-        <div style={{marginBottom  :20}}>Cash Out</div>
+        <div style={{marginBottom :20}}>Cash Out</div>
 
         <input
           type="text"

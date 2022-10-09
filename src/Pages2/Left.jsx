@@ -56,6 +56,8 @@ const Left = ({ styles, updateGroupToNavigate, updateGroupHide, groupToNavigate,
     fetchData().then((data) => updateData(data["dataAsPerPhone"]));
   }, [groupHide]);
 
+  // console.log("??? data in left", data); 
+
   return (
     <div style={{ ...styles, position: "relative", display: "flex", flexDirection: "column" }}>
       {/* navigation */}

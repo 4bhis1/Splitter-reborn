@@ -1,9 +1,12 @@
 import { Dialog } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ip } from "../config";
+import { Theme } from "../Context/Provider";
 
 function Group(props) {
   const { groupHide, updateGroupHide } = props;
+
+  const { firstname } = useContext(Theme);
 
   const handleClose = () => {
     updateGroupHide(false);
@@ -16,9 +19,10 @@ function Group(props) {
     <Dialog onClose={handleClose} open={groupHide}>
       <div
         style={{
-          paddingRight: "10px",
-          paddingLeft: "10px",
-          paddingTop: "5px",
+          // paddingRight: "10px",
+          // paddingLeft: "10px",
+          // paddingTop: "5px",
+          padding: 20,
         }}
       >
         <input
@@ -53,7 +57,7 @@ function Group(props) {
               let data = "Mem" + y;
               let phone = "Phn" + y;
               return (
-                <div style={{ display: "flex" }}>
+                <div key={y} style={{ display: "flex" }}>
                   <input
                     type="text"
                     placeholder={`Member ${y + 2}`}
@@ -86,12 +90,9 @@ function Group(props) {
         </div>
         <button
           onClick={() => {
-            let obj = [{ membersfirstname: "You", phone: window.localStorage.getItem("phone") }];
+            let obj = [{ membersfirstname: firstname, phone: parseInt(window.localStorage.getItem("phone")) }];
             for (let i = 0; i < Object.keys(text).length / 2; i++) {
-              // console.log(i)
-
               let tempName = text[`Mem${i}`];
-              console.log("tempName", tempName);
               tempName = tempName.trim();
               let temp = {
                 membersfirstname: tempName.substr(
@@ -104,8 +105,7 @@ function Group(props) {
               obj.push(temp);
             }
             console.log("---> object to temp", obj);
-            console.log(parseInt(Math.random() * 1000));
-            console.log(window.localStorage.getItem("token"));
+
             let data;
             fetch(`${ip}/api/v1/groups/creategroup`, {
               method: "POST",
