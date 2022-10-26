@@ -34,6 +34,8 @@ const fetchData = async () => {
       console.log("fetch error" + err);
     });
 
+  // console.log("????? ==-> data", data);
+
   return data;
 };
 
@@ -56,7 +58,7 @@ const Left = ({ styles, updateGroupToNavigate, updateGroupHide, groupToNavigate,
     fetchData().then((data) => updateData(data["dataAsPerPhone"]));
   }, [groupHide]);
 
-  // console.log("??? data in left", data); 
+  // console.log("??? data in left", data);
 
   return (
     <div style={{ ...styles, position: "relative", display: "flex", flexDirection: "column" }}>
@@ -181,7 +183,7 @@ const Left = ({ styles, updateGroupToNavigate, updateGroupHide, groupToNavigate,
                     wordBreak: "break-word",
                     cursor: "pointer",
                   }}
-                  onClick={() => updateGroupToNavigate({ id: x._id, members: x.members, groupname: x.groupname })}
+                  onClick={() => updateGroupToNavigate({ ...x })}
                 >
                   {x["groupname"]}
                 </div>

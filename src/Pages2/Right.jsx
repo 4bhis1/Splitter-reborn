@@ -37,13 +37,13 @@ const Right = ({ styles, groupToNavigate, updateExpenseHide, expenseHide }) => {
           return response.json();
         })
         .then((data) => {
-          // console.log("datata",data );
+          // console.log("@@@@##  datata", data);
           updateData(data["final"]);
         });
     }
   }, [groupToNavigate, expenseHide]);
 
-  console.log("all ezpenses >>>>>>>>>>>>", data);
+  // console.log("all ezpenses >>>>>>>>>>>>", data);
 
   const ShowData = () => {
     return (
@@ -51,7 +51,7 @@ const Right = ({ styles, groupToNavigate, updateExpenseHide, expenseHide }) => {
         <div style={{ width: "80%" }}>
           {data && !!data["data"].length ? (
             data["data"].map((x, y) => {
-              let date = x.createdon.substr(0, 10);
+              // let date = x.createdon.substr(0, 10);
               let mainobj = "";
               if (!!x["expense"].length && x["expense"][0]["name"] !== "You")
                 mainobj = "You are not involved in this budget";
@@ -98,7 +98,7 @@ const Right = ({ styles, groupToNavigate, updateExpenseHide, expenseHide }) => {
                       {/* </div> */}
                       <div>{mainobj}</div>
                     </div>
-                    <div style={{ display: "flex", justifyContent: "flex-end" }}>{date}</div>
+                    {/* <div style={{ display: "flex", justifyContent: "flex-end" }}>{date}</div> */}
                   </div>
                 </div>
               );

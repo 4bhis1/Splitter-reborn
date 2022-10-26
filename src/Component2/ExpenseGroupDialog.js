@@ -11,7 +11,7 @@ function ExpenseGroup(props) {
 
   let { userPhone, firstname } = useContext(Theme);
 
-  // console.log("??? tenpData before", newData);
+  console.log("??? tenpData before", newData);
 
   // let store1 = "";
   // if (newData && newData["members"] && newData["members"][0] && newData["members"][0]["membersfirstname"] !== "You") {
@@ -158,8 +158,10 @@ function ExpenseGroup(props) {
                   },
                   body: JSON.stringify({
                     token: window.localStorage.getItem("token"),
+                    userPhone: window.localStorage.getItem("phone"),
                     expensename: text["expense"],
                     groupid: newData["id"],
+                    groupname: newData["groupname"],
                     expense: arr,
                     image: 18,
                   }),

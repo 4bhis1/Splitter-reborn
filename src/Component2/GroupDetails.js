@@ -2,11 +2,12 @@ import { Dialog } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { ip } from "../config";
 import { Theme } from "../Context/Provider";
+import { convertToFinalDate } from "../PureFunctions";
 
 function GroupDetails(props) {
   const { hide, hideFunc, data } = props;
 
-  console.log("@@@@ in GroupDetails", hide, data);
+  // console.log("@@@@ in GroupDetails", hide, data);
 
   //   const { objectId } = useContext(Theme);
 
@@ -22,7 +23,7 @@ function GroupDetails(props) {
 
   return (
     <Dialog onClose={handleClose} open={hide}>
-      {data && data.createdon ? (
+      {data && data.groupname ? (
         <div style={{ display: "flex", flexDirection: "column", padding: 20 }}>
           <div style={{ fontSize: 30, paddingBottom: 20, marginRight: 100 }}>{data.groupname}</div>
 
@@ -40,7 +41,9 @@ function GroupDetails(props) {
           </div>
           <div style={{ padding: 10, paddingLeft: 0 }}>
             <div>Created On</div>
-            <div style={{ paddingLeft: 10 }}>{data.createdon.substring(0, 10)}</div>
+            <div style={{ paddingLeft: 10 }}>
+              {convertToFinalDate(data.createdon.date, data.createdon.month, data.createdon.year)}
+            </div>
           </div>
         </div>
       ) : (

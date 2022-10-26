@@ -5,15 +5,19 @@ import { Theme } from "../Context/Provider";
 import { AiOutlineSend } from "react-icons/ai";
 import { useState } from "react";
 import { ip } from "../config";
+import { addExtraZero } from "../PureFunctions";
 
 const DialogOfExpense = (props) => {
-  const { hide, hideFunc, data } = props;
+  const { hide, hideFunc, data: groupdata } = props;
 
   const { userPhone, firstname } = useContext(Theme);
 
   // console.log("???", userPhone, firstname);
 
-  console.log("???? data", data);
+  let [chat, updateChat] = useState();
+  let [falseState, updateFalseState] = useState();
+
+  console.log("???? data", groupdata);
 
   const [text, updateText] = useState("");
 
@@ -23,12 +27,12 @@ const DialogOfExpense = (props) => {
     });
   };
 
-  const [chat, updateChat] = useState("");
-
-  console.log("@@@ data", data["_id"]);
+  // console.log("@@@ data DialogsOfExpense", groupdata["groupid"]);
 
   useEffect(() => {
-    fetch(`${ip}/api/v1/expenses/showexpenses`, {
+    // console.log("chla use Effect DialogsOfExpense");
+
+    fetch(`${ip}/api/v1/expenses/showchat`, {
       method: "POST",
       headers: {
         Accept: "application.json",
@@ -36,27 +40,29 @@ const DialogOfExpense = (props) => {
       },
       body: JSON.stringify({
         token: window.localStorage.getItem("token"),
-        groupid: data["_id"],
+        groupid: groupdata["_id"],
       }),
     })
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        console.log("@@@@ data from DialogsOfExpense", data);
-        // updateChat(data["final"]);
+        // console.log("@@@@ data from DialogsOfExpense", data["data"][0]["chat"]);
+        if (data && data["data"]) updateChat(data["data"][0]["chat"]);
+        updateFalseState("");
       });
-  }, []);
+    // return console.log("DialogsOfExpense unmounted");
+  }, [groupdata, falseState]);
 
   return (
     <Dialog onClose={handleClose} open={hide}>
       <div style={{ padding: 20 }}>
-        {data ? (
+        {groupdata ? (
           <div>
-            <div style={{ fonstSize: "22px", marginBottom: 10, fontWeight: "bold" }}>{data.expensename}</div>
+            <div style={{ fonstSize: "22px", marginBottom: 10, fontWeight: "bold" }}>{groupdata.expensename}</div>
 
             <div style={{ marginLeft: 30, marginRight: 10 }}>
-              {data.expense.map((x, y) => {
+              {groupdata.expense.map((x, y) => {
                 return (
                   <div key={y} style={{ display: "flex", justifyContent: "space-between" }}>
                     <div>{x.name}</div>
@@ -81,8 +87,8 @@ const DialogOfExpense = (props) => {
                   padding: 10,
                 }}
               >
-                {data && data["chat"]
-                  ? data["chat"].map((x, y) => {
+                {chat
+                  ? chat.map((x, y) => {
                       return (
                         <div
                           key={y}
@@ -113,7 +119,11 @@ const DialogOfExpense = (props) => {
                             )}
 
                             <div style={{ paddingLeft: 4 }}>{x.text}</div>
-                            <div style={{ fontSize: 12, textAlign: "right" }}>{x.chatdate.substring(11)}</div>
+                            <div style={{ fontSize: 12, textAlign: "right" }}>
+                              {x.chatdate.hour / 12 > 0
+                                ? `${addExtraZero(x.chatdate.hour % 12)} : ${addExtraZero(x.chatdate.min)} PM`
+                                : `${addExtraZero(x.chatdate.hour)} : ${addExtraZero(x.chatdate.min)} AM`}
+                            </div>
                           </div>
                         </div>
                       );
@@ -152,7 +162,6 @@ const DialogOfExpense = (props) => {
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    console.log("send");
                     fetch(`${ip}/api/v1/expenses/addchat`, {
                       method: "POST",
                       headers: {
@@ -162,7 +171,7 @@ const DialogOfExpense = (props) => {
                       body: JSON.stringify({
                         token: window.localStorage.getItem("token"),
 
-                        groupid: data["_id"],
+                        groupid: groupdata["_id"],
                         name: firstname,
                         text: text,
                         phone: userPhone,
@@ -171,6 +180,7 @@ const DialogOfExpense = (props) => {
                       console.log("fetch error" + err);
                     });
 
+                    updateFalseState("---");
                     updateText("");
                   }}
                 >
