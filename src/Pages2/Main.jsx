@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ExpenseGroup from "../Component2/ExpenseGroupDialog";
 import Group from "../Component2/GroupDialog";
 import Left from "./Left";
 import Nav from "./Nav";
 import Right from "./Right";
 
+import { Theme } from "../Context/Provider";
+import ColorMode from "../Theme/ColorMode";
+
 const Main = () => {
+  let { themeMode } = useContext(Theme);
+
   let [groupToNavigate, updateGroupToNavigate] = useState();
 
   let [expenseHide, updateExpenseHide] = useState(false);
@@ -19,7 +24,7 @@ const Main = () => {
           width: "100%",
           height: "30%",
           zIndex: 0,
-          backgroundColor: "#a3d9a3",
+          backgroundColor: ColorMode(themeMode, "mainBackgroundTop"),
           // opacity: 0.6,
         }}
       />
@@ -28,7 +33,7 @@ const Main = () => {
         style={{
           height: "100vh",
           width: "100vw",
-          backgroundColor: "#c0c0c0",
+          backgroundColor: ColorMode(themeMode, "mainBackgroundBottom"),
           overflow: "hidden",
           display: "flex",
           justifyContent: "center",

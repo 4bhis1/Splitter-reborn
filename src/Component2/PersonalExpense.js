@@ -3,8 +3,27 @@ import { ip } from "../config";
 import { Theme } from "../Context/Provider";
 
 import pic2 from "../Images/no-data-found.png";
+import { StandardDate } from "../lib/PureFunctions";
 import CashInDialog from "./CashInDialog";
 import { CashOutDialog } from "./CashOutDialog";
+
+let GroupByDate = (data) => {
+  let obj = {};
+
+  for (let i of data) {
+    let temp = StandardDate(i.createdon);
+
+    console.log("@@@@@", i);
+
+    if (!obj[temp]) {
+      obj[temp] = [{ expense: i.expensename, debit: i.debit, credit: i.credit, desc: i.description }];
+    } else {
+      obj[temp].push({ expense: i.expensename, debit: i.debit, credit: i.credit, desc: i.description });
+    }
+  }
+
+  return obj;
+};
 
 const PersonalExpense = () => {
   const data = useContext(Theme);
@@ -33,16 +52,24 @@ const PersonalExpense = () => {
     })
       .then((temp) => temp.json())
       .then((temp) => {
-        updateUserExpense(temp["data"]);
+        // console.log(temp);
+        updateUserExpense(GroupByDate(temp["data"]));
         // data = temp;
       });
   }, [hideCashIn, hideCashOut]);
 
   if (useExpense) {
-    useExpense.map((x) => {
-      Gain += x["credit"];
-      Loss += x["debit"];
+    Object.keys(useExpense).map((x) => {
+      useExpense[x].map((y) => {
+        Gain += y["credit"];
+        Loss += y["debit"];
+      });
     });
+    // useExpense.map((x) => {
+
+    //   // Gain += x["credit"];
+    //   // Loss += x["debit"];
+    // });
 
     TotalLeft = Gain - Loss;
   }
@@ -71,70 +98,103 @@ const PersonalExpense = () => {
     );
   };
 
+  // console.log("@@@ useExpense", useExpense);
+
   return (
     <div style={{ height: "100%", flexDirection: "column", display: "flex" }}>
-      {useExpense && !!useExpense.length ? (
+      {useExpense && !!Object.keys(useExpense).length ? (
         <div style={{ flex: 1, overflow: "scroll", overflowX: "hidden" }}>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <div style={{ position: "relative", width: "100%", position: "relative" }}>
             <div
               style={{
-                backgroundColor: "white",
-                padding: 20,
-                width: 300,
-                margin: 20,
-                marginTop: 40,
+                backgroundColor: "aquamarine",
+                padding: 10,
+                paddingBottom: 30,
+                display: "flex",
+                justifyContent: "space-around",
               }}
             >
-              <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-                <RenderCard Gain={Gain} />
-                <RenderCard Loss={Loss} />
-              </div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <div style={{ cursor: "pointer" }}>Graph</div>
-                <div>{TotalLeft}</div>
+              <div style={{ ...inlineStyles.chips }}>Month</div>
+              <div style={{ ...inlineStyles.chips }}>Money</div>
+              <div style={{ ...inlineStyles.chips }}>Debit / Credit </div>
+              <div style={{ ...inlineStyles.chips }}>GroupBy</div>
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <div
+                style={{
+                  backgroundColor: "white",
+                  padding: 20,
+                  width: 300,
+                  margin: 20,
+                  marginTop: -20,
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+                  <RenderCard Gain={Gain} />
+                  <RenderCard Loss={Loss} />
+                </div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ cursor: "pointer" }}>Graph</div>
+                  <div>{TotalLeft}</div>
+                </div>
               </div>
             </div>
           </div>
           {useExpense
-            ? useExpense.map((x, y) => {
+            ? Object.keys(useExpense).map((val1, index1) => {
+                // console.log("@@@@@@@@@@", useExpense[x]);
                 return (
-                  <div key={y}>
-                    {x["debit"] > 0 ? (
-                      <div
-                        style={{
-                          backgroundColor: "tomato",
-                          display: "flex",
-                          justifyContent: "space-between",
-                          margin: 30,
-                          padding: 10,
-                          marginBottom: -15,
-                        }}
-                      >
-                        <div>
-                          <div style={{ fontSize: 20 }}>{x["expensename"]}</div>
-                          <div style={{ fontSize: 17 }}>{x["description"]}</div>
+                  <>
+                    <div style={{ justifyContent: "center", display: "flex  ", margin: 30 }}>
+                      <div style={{ backgroundColor: "yellow" }}>{val1}</div>
+                    </div>
+
+                    {useExpense[val1].map((x, y) => {
+                      return (
+                        <div key={y}>
+                          {x["debit"] > 0 ? (
+                            <div
+                              style={{
+                                backgroundColor: "tomato",
+                                display: "flex",
+                                justifyContent: "space-between",
+                                margin: 10,
+                                marginLeft: 30,
+                                marginRight: 30,
+                                padding: 10,
+                                // marginBottom: -15,
+                              }}
+                            >
+                              <div>
+                                <div style={{ fontSize: 20 }}>{x["expense"]}</div>
+                                <div style={{ fontSize: 17 }}>{x["desc"]}</div>
+                              </div>
+                              <div style={{ display: "flex", alignItems: "center", fontSize: 25 }}>{x["debit"]}</div>
+                            </div>
+                          ) : (
+                            <div
+                              style={{
+                                backgroundColor: "lightGreen",
+                                display: "flex",
+                                justifyContent: "space-between",
+                                margin: 10,
+                                marginLeft: 30,
+                                marginRight: 30,
+                                padding: 10,
+                                // marginBottom: -15,
+                              }}
+                            >
+                              <div>
+                                <div style={{ fontSize: 20 }}>{x["expense"]}</div>
+                                <div style={{ fontSize: 17 }}>{x["desc"]}</div>
+                              </div>
+                              <div style={{ display: "flex", alignItems: "center", fontSize: 25 }}>{x["credit"]}</div>
+                            </div>
+                          )}
                         </div>
-                        <div style={{ display: "flex", alignItems: "center", fontSize: 25 }}>{x["debit"]}</div>
-                      </div>
-                    ) : (
-                      <div
-                        style={{
-                          backgroundColor: "lightGreen",
-                          display: "flex",
-                          justifyContent: "space-between",
-                          margin: 30,
-                          padding: 10,
-                          marginBottom: -15,
-                        }}
-                      >
-                        <div>
-                          <div style={{ fontSize: 20 }}>{x["expensename"]}</div>
-                          <div style={{ fontSize: 17 }}>{x["description"]}</div>
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", fontSize: 25 }}>{x["credit"]}</div>
-                      </div>
-                    )}
-                  </div>
+                      );
+                    })}
+                  </>
                 );
               })
             : void 0}
@@ -202,5 +262,13 @@ const inlineStyles = {
     fontSize: 22,
     borderTopLeftRadius: 10,
     borderBottomRightRadius: 10,
+  },
+
+  chips: {
+    backgroundColor: "grey",
+    padding: 5,
+    borderRadius: 50,
+    paddingRight: 30,
+    cursor: "pointer",
   },
 };

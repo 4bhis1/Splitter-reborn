@@ -1,8 +1,18 @@
 1. Notification
-
 6. group expenses me "you" wale chiz ka kuch krna h
 
 PE ka kaam
 
-4. Personal Expense k upr ek filter lgega.... montly and yearly ka 
 5. right section me Graph ka option rhega jha pe graphly plot kr k btayega 
+
+Filter Params
+    -> Month
+    -> Money / Greater Then
+    -> Income / Expense
+    -> Group
+
+Message get Send by hitting Enter
+
+jo CurrenDate FrontEnd se Jayega
+
+Color Composition usihisab se rkhna hitting

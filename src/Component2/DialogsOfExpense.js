@@ -6,6 +6,38 @@ import { AiOutlineSend } from "react-icons/ai";
 import { useState } from "react";
 import { ip } from "../config";
 import { addExtraZero } from "../PureFunctions";
+import { StandardDate } from "../lib/PureFunctions";
+
+let GroupByDate = (data) => {
+  let obj = {};
+
+  for (let i of data) {
+    let temp = StandardDate(i.chatdate);
+
+    console.log("@@@@@", i);
+
+    if (!obj[temp]) {
+      obj[temp] = [
+        {
+          name: i.name,
+          phone: i.phone,
+          text: i.text,
+          chatdate: i.chatdate,
+        },
+      ];
+    } else {
+      obj[temp].push({
+        name: i.name,
+        phone: i.phone,
+        text: i.text,
+        chatdate: i.chatdate,
+      });
+    }
+  }
+
+  console.log(" >>>>>>>>>>>data", obj);
+  return obj;
+};
 
 const DialogOfExpense = (props) => {
   const { hide, hideFunc, data: groupdata } = props;
@@ -17,7 +49,7 @@ const DialogOfExpense = (props) => {
   let [chat, updateChat] = useState();
   let [falseState, updateFalseState] = useState();
 
-  console.log("???? data", groupdata);
+  // console.log("???? data", groupdata);
 
   const [text, updateText] = useState("");
 
@@ -48,7 +80,10 @@ const DialogOfExpense = (props) => {
       })
       .then((data) => {
         // console.log("@@@@ data from DialogsOfExpense", data["data"][0]["chat"]);
-        if (data && data["data"]) updateChat(data["data"][0]["chat"]);
+        if (data && data["data"]) {
+          console.log("@@@@ Group by data", GroupByDate(data["data"][0]["chat"]));
+          updateChat(GroupByDate(data["data"][0]["chat"]));
+        }
         updateFalseState("");
       });
     // return console.log("DialogsOfExpense unmounted");
@@ -88,44 +123,53 @@ const DialogOfExpense = (props) => {
                 }}
               >
                 {chat
-                  ? chat.map((x, y) => {
+                  ? Object.keys(chat).map((key1, index1) => {
                       return (
-                        <div
-                          key={y}
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            padding: 2,
-                            justifyContent: x.phone == userPhone ? "right" : "left",
-                          }}
-                        >
-                          <div
-                            style={{
-                              backgroundColor: "cyan",
-                              minWidth: 0,
-                              maxWidth: "80%",
-                              padding: 4,
-                              borderRadius: 6,
-                              display: "flex",
-                              flexDirection: "column",
-                            }}
-                          >
-                            {x.phone != userPhone ? (
-                              <div style={{ fontSize: 15, color: "#001cff", textDecoration: "underline" }}>
-                                {x.name}
-                              </div>
-                            ) : (
-                              void 0
-                            )}
-
-                            <div style={{ paddingLeft: 4 }}>{x.text}</div>
-                            <div style={{ fontSize: 12, textAlign: "right" }}>
-                              {x.chatdate.hour / 12 > 0
-                                ? `${addExtraZero(x.chatdate.hour % 12)} : ${addExtraZero(x.chatdate.min)} PM`
-                                : `${addExtraZero(x.chatdate.hour)} : ${addExtraZero(x.chatdate.min)} AM`}
-                            </div>
+                        <>
+                          <div style={{ display: "flex", justifyContent: "center", margin : 20 }}>
+                            <div style={{ backgroundColor: "yellow" }}>{key1}</div>
                           </div>
-                        </div>
+                          {chat[key1].map((x, y) => {
+                            return (
+                              <div
+                                key={y}
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  padding: 2,
+                                  justifyContent: x.phone == userPhone ? "right" : "left",
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    backgroundColor: "cyan",
+                                    minWidth: 0,
+                                    maxWidth: "80%",
+                                    padding: 4,
+                                    borderRadius: 6,
+                                    display: "flex",
+                                    flexDirection: "column",
+                                  }}
+                                >
+                                  {x.phone != userPhone ? (
+                                    <div style={{ fontSize: 15, color: "#001cff", textDecoration: "underline" }}>
+                                      {x.name}
+                                    </div>
+                                  ) : (
+                                    void 0
+                                  )}
+
+                                  <div style={{ paddingLeft: 4 }}>{x.text}</div>
+                                  <div style={{ fontSize: 12, textAlign: "right" }}>
+                                    {x.chatdate.hour / 12 > 0
+                                      ? `${addExtraZero(x.chatdate.hour % 12)} : ${addExtraZero(x.chatdate.min)} PM`
+                                      : `${addExtraZero(x.chatdate.hour)} : ${addExtraZero(x.chatdate.min)} AM`}
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </>
                       );
                     })
                   : void 0}

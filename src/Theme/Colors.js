@@ -90,4 +90,14 @@ export const Color = {
     200: "#FFEBCF",
     100: "#FCEFDE",
   },
+
+  mainBackgroundTop: {
+    light: "#a3d9a3",
+    dark: "#153462",
+  },
+
+  mainBackgroundBottom : {
+    light : "#c0c0c0",
+    dark : "#171717"
+  }
 };

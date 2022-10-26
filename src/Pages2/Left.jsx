@@ -42,8 +42,11 @@ const fetchData = async () => {
 // let data;
 const Left = ({ styles, updateGroupToNavigate, updateGroupHide, groupToNavigate, groupHide }) => {
   let userData = useContext(Theme);
-
+  // console.log("\n\n 🚀 ~ file: Left.jsx ~ line 45 ~ Left ~ userData", userData);
+  const { themeMode, changeTheme } = userData;
   let [data, updateData] = useState();
+
+  // let {  } = useContext(Theme);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -125,7 +128,14 @@ const Left = ({ styles, updateGroupToNavigate, updateGroupHide, groupToNavigate,
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem onClick={handleClose}>Night Mode</MenuItem>
+            <MenuItem
+              onClick={() => {
+                changeTheme((x) => !x);
+                handleClose();
+              }}
+            >
+              {themeMode ? "Dark Mode" : "Light Mode"}
+            </MenuItem>
             <MenuItem onClick={handleClose}>Profile</MenuItem>
             <MenuItem onClick={handleClose}>New Group</MenuItem>
 

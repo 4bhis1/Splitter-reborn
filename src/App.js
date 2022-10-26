@@ -41,7 +41,7 @@ function App() {
   return (
     <Theme.Provider
       value={{
-        themeMode: themeMode,
+        themeMode,
         changeTheme: changeTheme,
         colorFunction: ColorMode,
         updateLogin: updateLogin,
