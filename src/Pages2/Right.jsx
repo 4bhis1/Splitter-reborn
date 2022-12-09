@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import DialogOfExpense from "../Component2/DialogsOfExpense";
 import PersonalExpense from "../Component2/PersonalExpense";
@@ -7,6 +7,8 @@ import { ip } from "../config";
 import pic1 from "../Images/select-a-tab.png";
 import pic2 from "../Images/no-data-found.png";
 import GroupDetails from "../Component2/GroupDetails";
+import ColorMode from "../Theme/ColorMode";
+import { Theme } from "../Context/Provider";
 
 const Right = ({ styles, groupToNavigate, updateExpenseHide, expenseHide }) => {
   let [showExpenseDialog, updateShowExpenseDialog] = useState({ show: false, data: "" });
@@ -14,6 +16,7 @@ const Right = ({ styles, groupToNavigate, updateExpenseHide, expenseHide }) => {
 
   let [showDetails, updateShowDetails] = useState(false);
 
+  const { themeMode } = useContext(Theme);
   // const [PE,upda]
 
   // console.log("@@@ group to navigate", groupToNavigate);
@@ -132,7 +135,7 @@ const Right = ({ styles, groupToNavigate, updateExpenseHide, expenseHide }) => {
               <div
                 style={{
                   height: 40,
-                  backgroundColor: "Green",
+                  backgroundColor: ColorMode(themeMode, "heading"),
                   padding: 10,
                   display: "flex",
                   alignItems: "center",

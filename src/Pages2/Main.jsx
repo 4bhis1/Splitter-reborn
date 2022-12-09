@@ -62,14 +62,19 @@ const Main = () => {
           }}
         >
           <Left
-            styles={{ width: "35%", backgroundColor: "white", borderRight: "solid", borderTopLeftRadius: 10 }}
+            styles={{
+              width: "35%",
+              backgroundColor: ColorMode(themeMode, "leftMainColor"),
+              borderRight: "solid",
+              borderTopLeftRadius: 10,
+            }}
             updateGroupToNavigate={updateGroupToNavigate}
             groupToNavigate={groupToNavigate}
             groupHide={groupHide}
             updateGroupHide={updateGroupHide}
           />
           <Right
-            styles={{ width: "65%", backgroundColor: "rgb(243 239 239)", height: "100%" }}
+            styles={{ width: "65%", backgroundColor: ColorMode(themeMode, "rightBackgroundColor"), height: "100%" }}
             groupToNavigate={groupToNavigate}
             updateExpenseHide={updateExpenseHide}
             expenseHide={expenseHide}

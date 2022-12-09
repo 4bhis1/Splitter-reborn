@@ -3,7 +3,7 @@ import { ip } from "../config";
 import { Theme } from "../Context/Provider";
 
 import pic2 from "../Images/no-data-found.png";
-import { StandardDate } from "../lib/PureFunctions";
+import { NumberToString, StandardDate } from "../lib/PureFunctions";
 import CashInDialog from "./CashInDialog";
 import { CashOutDialog } from "./CashOutDialog";
 
@@ -165,11 +165,15 @@ const PersonalExpense = () => {
                                 // marginBottom: -15,
                               }}
                             >
+
                               <div>
-                                <div style={{ fontSize: 20 }}>{x["expense"]}</div>
+                                <div style={{ fontSize: 20, fontWeight: "bold" }}>{x["expense"]}</div>
                                 <div style={{ fontSize: 17 }}>{x["desc"]}</div>
                               </div>
-                              <div style={{ display: "flex", alignItems: "center", fontSize: 25 }}>{x["debit"]}</div>
+                              <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
+                                <div style={{ fontSize: 30, width: "100%", textAlign: "end" }}>{x["debit"]}</div>
+                                <div style={{ fontSize: 12 }}>{NumberToString(x["debit"])}</div>
+                              </div>
                             </div>
                           ) : (
                             <div
@@ -185,10 +189,13 @@ const PersonalExpense = () => {
                               }}
                             >
                               <div>
-                                <div style={{ fontSize: 20 }}>{x["expense"]}</div>
+                                <div style={{ fontSize: 20, fontWeight: "bold" }}>{x["expense"]}</div>
                                 <div style={{ fontSize: 17 }}>{x["desc"]}</div>
                               </div>
-                              <div style={{ display: "flex", alignItems: "center", fontSize: 25 }}>{x["credit"]}</div>
+                              <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
+                                <div style={{ fontSize: 30, width: "100%", textAlign: "end" }}>{x["credit"]}</div>
+                                <div style={{ fontSize: 12 }}>{NumberToString(x["credit"])}</div>
+                              </div>
                             </div>
                           )}
                         </div>

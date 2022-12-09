@@ -5,8 +5,7 @@ import { Theme } from "../Context/Provider";
 import { AiOutlineSend } from "react-icons/ai";
 import { useState } from "react";
 import { ip } from "../config";
-import { addExtraZero } from "../PureFunctions";
-import { StandardDate } from "../lib/PureFunctions";
+import { StandardDate, addExtraZero, currentDate } from "../lib/PureFunctions";
 
 let GroupByDate = (data) => {
   let obj = {};
@@ -81,13 +80,47 @@ const DialogOfExpense = (props) => {
       .then((data) => {
         // console.log("@@@@ data from DialogsOfExpense", data["data"][0]["chat"]);
         if (data && data["data"]) {
-          console.log("@@@@ Group by data", GroupByDate(data["data"][0]["chat"]));
+          // console.log("@@@@ Group by data", GroupByDate(data["data"][0]["chat"]));
+          console.log("@@@@ Group by data", data["data"][0]["chat"]);
           updateChat(GroupByDate(data["data"][0]["chat"]));
         }
         updateFalseState("");
       });
     // return console.log("DialogsOfExpense unmounted");
   }, [groupdata, falseState]);
+
+  let saveMessage = () => {
+    const tempDate = {
+      date: currentDate()["date"],
+      month: currentDate()["month"],
+      year: currentDate()["year"],
+      hour: currentDate()["hour"],
+      min: currentDate()["min"],
+    };
+    console.log("\n\n 🚀 ~ file: DialogsOfExpense.js ~ line 100 ~ saveMessage ~ tempDate", tempDate);
+
+    fetch(`${ip}/api/v1/expenses/addchat`, {
+      method: "POST",
+      headers: {
+        Accept: "application.json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: window.localStorage.getItem("token"),
+
+        groupid: groupdata["_id"],
+        name: firstname,
+        text: text,
+        phone: userPhone,
+        chatdate: { ...tempDate },
+      }),
+    }).catch((err) => {
+      console.log("fetch error" + err);
+    });
+
+    updateFalseState("---");
+    updateText("");
+  };
 
   return (
     <Dialog onClose={handleClose} open={hide}>
@@ -126,7 +159,7 @@ const DialogOfExpense = (props) => {
                   ? Object.keys(chat).map((key1, index1) => {
                       return (
                         <>
-                          <div style={{ display: "flex", justifyContent: "center", margin : 20 }}>
+                          <div style={{ display: "flex", justifyContent: "center", margin: 20 }}>
                             <div style={{ backgroundColor: "yellow" }}>{key1}</div>
                           </div>
                           {chat[key1].map((x, y) => {
@@ -184,6 +217,19 @@ const DialogOfExpense = (props) => {
                 }}
               >
                 <div style={{ display: "flex", flex: 1, marginRight: 10, height: 30, marginLeft: 5 }}>
+                  {/* <textarea type="text" value={data} onChange={(e)=>{
+          updateData(e.target.value)
+        }}
+        onKeyPress={(e)=>{
+          //  console.log(e.key)
+          if(e.key === 'Enter' && e.shiftKey){
+            console.log("Entre key Hitted", )
+            console.log(data)
+          }
+        }}
+        
+        /> */}
+
                   <input
                     type="text"
                     style={{ flex: 1, paddingLeft: 10 }}
@@ -191,6 +237,11 @@ const DialogOfExpense = (props) => {
                     value={text}
                     onChange={(e) => {
                       updateText(e.target.value);
+                    }}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        saveMessage();
+                      }
                     }}
                   />
                 </div>
@@ -206,26 +257,28 @@ const DialogOfExpense = (props) => {
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    fetch(`${ip}/api/v1/expenses/addchat`, {
-                      method: "POST",
-                      headers: {
-                        Accept: "application.json",
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        token: window.localStorage.getItem("token"),
+                    // fetch(`${ip}/api/v1/expenses/addchat`, {
+                    //   method: "POST",
+                    //   headers: {
+                    //     Accept: "application.json",
+                    //     "Content-Type": "application/json",
+                    //   },
+                    //   body: JSON.stringify({
+                    //     token: window.localStorage.getItem("token"),
 
-                        groupid: groupdata["_id"],
-                        name: firstname,
-                        text: text,
-                        phone: userPhone,
-                      }),
-                    }).catch((err) => {
-                      console.log("fetch error" + err);
-                    });
+                    //     groupid: groupdata["_id"],
+                    //     name: firstname,
+                    //     text: text,
+                    //     phone: userPhone,
+                    //   }),
+                    // }).catch((err) => {
+                    //   console.log("fetch error" + err);
+                    // });
 
-                    updateFalseState("---");
-                    updateText("");
+                    // updateFalseState("---");
+                    // updateText("");
+
+                    saveMessage();
                   }}
                 >
                   <AiOutlineSend />

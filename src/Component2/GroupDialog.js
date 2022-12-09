@@ -2,6 +2,7 @@ import { Dialog } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { ip } from "../config";
 import { Theme } from "../Context/Provider";
+import { currentDate } from "../lib/PureFunctions";
 
 function Group(props) {
   const { groupHide, updateGroupHide } = props;
@@ -107,6 +108,7 @@ function Group(props) {
             console.log("---> object to temp", obj);
 
             let data;
+
             fetch(`${ip}/api/v1/groups/creategroup`, {
               method: "POST",
               headers: {
@@ -118,6 +120,11 @@ function Group(props) {
                 groupname: groupName,
                 members: obj,
                 image: 18,
+                createdon: {
+                  date: currentDate()["date"],
+                  month: currentDate()["month"],
+                  year: currentDate()["year"],
+                },
               }),
             })
               .then((response) => {

@@ -96,8 +96,39 @@ export const Color = {
     dark: "#153462",
   },
 
-  mainBackgroundBottom : {
-    light : "#c0c0c0",
-    dark : "#171717"
+  mainBackgroundBottom: {
+    light: "#c0c0c0",
+    dark: "#171717",
+  },
+
+  heading: {
+    light: "#4FA095",
+    dark: "green",
+  },
+
+  notificationColor: {
+    light: "yellow",
+    dark: "#F6F6C9",
+  },
+
+  leftMainColor: {
+    light: "white",
+    dark: "#81C6E8",
+  },
+
+  leftMainCard: {
+    light: {
+      active: "rgb(200,200,210)",
+      unactive: "rgb(230,230,230)",
+    },
+    dark: {
+      active: "#25316D",
+      unactive: "#5F6F94",
+    },
+  },
+
+  rightBackgroundColor :{
+    light : "rgb(243 239 239)",
+    dark : "#abd4e8"
   }
 };

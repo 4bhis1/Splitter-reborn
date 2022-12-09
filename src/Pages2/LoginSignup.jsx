@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { useEffect } from "react";
 import { ip } from "../config";
 import { Theme } from "../Context/Provider";
+import { currentDate } from "../lib/PureFunctions";
 
 import "./LoginSingup.css";
 
@@ -17,6 +18,13 @@ const submit = async (text, updateOpenSnackbar, updatemsg) => {
     temp.email = text.email;
     temp.phone = text.phone;
     temp.password = text.password;
+    temp.createdon = {
+      date: currentDate()["date"],
+      month: currentDate()["month"],
+      year: currentDate()["year"],
+    };
+
+    // console.log("@@@ ",temp.createdon);
 
     const data = await fetch(`${ip}/api/v1/users/register`, {
       method: "POST",
@@ -345,7 +353,7 @@ const LoginSignup = () => {
                 type="text"
                 style={{ width: 130 }}
                 name="name"
-                placeholder="Enter your name"
+                placeholder="Enter your first name"
                 onChange={(e) => {
                   updateSigninText({
                     ...signinText,
@@ -365,12 +373,12 @@ const LoginSignup = () => {
                 type="text"
                 name="name"
                 style={{ width: 130 }}
-                placeholder="Enter your name"
+                placeholder="Enter your last name"
                 onChange={(e) => {
                   updateSigninText({ ...signinText, lastname: e.target.value });
                 }}
                 value={signinText.lastname}
-                required
+                // required
               />
               <div className="helperText">{helperSigninText.lastname}</div>
             </div>

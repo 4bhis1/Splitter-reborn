@@ -2,6 +2,7 @@ import { Dialog } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { ip } from "../config";
 import { Theme } from "../Context/Provider";
+import { currentDate } from "../lib/PureFunctions";
 
 export const CashOutDialog = (props) => {
   const { hideCashOut, updateHideCashOut } = props;
@@ -21,7 +22,7 @@ export const CashOutDialog = (props) => {
   return (
     <Dialog onClose={handleClose} open={hideCashOut}>
       <div style={{ display: "flex", flexDirection: "column", padding: 20 }}>
-        <div style={{marginBottom :20}}>Cash Out</div>
+        <div style={{ marginBottom: 20 }}>Cash Out</div>
 
         <input
           type="text"
@@ -68,7 +69,11 @@ export const CashOutDialog = (props) => {
                 userid: objectId,
                 debit: text["amount"],
                 credit: 0,
-
+                createdon: {
+                  date: currentDate()["date"],
+                  month: currentDate()["month"],
+                  year: currentDate()["year"],
+                },
                 description: text["description"],
               }),
             }).catch((err) => {

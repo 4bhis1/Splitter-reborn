@@ -2,7 +2,7 @@ import { Dialog } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { ip } from "../config";
 import { Theme } from "../Context/Provider";
-import { convertToFinalDate } from "../PureFunctions";
+import { convertToFinalDate } from "../lib/PureFunctions";
 
 function GroupDetails(props) {
   const { hide, hideFunc, data } = props;

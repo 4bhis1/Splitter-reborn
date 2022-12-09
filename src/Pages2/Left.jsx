@@ -10,6 +10,7 @@ import { ip } from "../config";
 import { Theme } from "../Context/Provider";
 import { Avatar, Button, Menu, MenuItem } from "@mui/material";
 import { padding } from "@mui/system";
+import ColorMode from "../Theme/ColorMode";
 
 const fetchData = async () => {
   const text = {
@@ -63,13 +64,15 @@ const Left = ({ styles, updateGroupToNavigate, updateGroupHide, groupToNavigate,
 
   // console.log("??? data in left", data);
 
+  // let { themeMode } = useContext(Theme);
+
   return (
     <div style={{ ...styles, position: "relative", display: "flex", flexDirection: "column" }}>
       {/* navigation */}
       <div
         style={{
           height: 40,
-          backgroundColor: "Green",
+          backgroundColor: ColorMode(themeMode, "heading"),
           padding: 10,
           display: "flex",
           alignItems: "center",
@@ -94,7 +97,7 @@ const Left = ({ styles, updateGroupToNavigate, updateGroupHide, groupToNavigate,
           >
             <div
               style={{
-                backgroundColor: "yellow",
+                backgroundColor: ColorMode(themeMode, "notificationColor"),
                 fontSize: 10,
                 borderRadius: "100%",
                 padding: 3,
@@ -157,10 +160,20 @@ const Left = ({ styles, updateGroupToNavigate, updateGroupHide, groupToNavigate,
         </div>
       </div>
 
-      <div style={{ flex: 1, overflow: "scroll", overflowX: "hidden" }}>
+      <div
+        style={{
+          flex: 1,
+          overflow: "scroll",
+          overflowX: "hidden",
+          
+        }}
+      >
         <div
           style={{
-            backgroundColor: groupToNavigate && groupToNavigate["PE"] ? "rgb(200,200,210)" : "rgb(230,230,230)",
+            backgroundColor:
+              groupToNavigate && groupToNavigate["PE"]
+                ? ColorMode(themeMode, "leftMainCard")["active"]
+                : ColorMode(themeMode, "leftMainCard")["unactive"],
             margin: 10,
             padding: 30,
             borderRadius: 8,
@@ -185,8 +198,8 @@ const Left = ({ styles, updateGroupToNavigate, updateGroupHide, groupToNavigate,
                   style={{
                     backgroundColor:
                       groupToNavigate && groupToNavigate["groupname"] === x.groupname
-                        ? "rgb(200,200,210)"
-                        : "rgb(230,230,230)",
+                      ? ColorMode(themeMode, "leftMainCard")["active"]
+                      : ColorMode(themeMode, "leftMainCard")["unactive"],
                     margin: 10,
                     padding: 30,
                     borderRadius: 8,

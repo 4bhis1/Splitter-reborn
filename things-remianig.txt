@@ -5,14 +5,19 @@ PE ka kaam
 
 5. right section me Graph ka option rhega jha pe graphly plot kr k btayega 
 
-Filter Params
+Filter Params (Ispe bhi kaam ho rha h)
     -> Month
     -> Money / Greater Then
     -> Income / Expense
     -> Group
 
-Message get Send by hitting Enter
 
-jo CurrenDate FrontEnd se Jayega
+Color Composition usihisab se rkhna hitting ( Adha ho gya h)
 
-Color Composition usihisab se rkhna hitting
+
+Work on Algorithm
+
+
+Permission Request
+
+matrix wise solve   

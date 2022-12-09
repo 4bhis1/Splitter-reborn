@@ -2,6 +2,7 @@ import { Dialog } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { ip } from "../config";
 import { Theme } from "../Context/Provider";
+import { currentDate } from "../lib/PureFunctions";
 
 function CashInDialog(props) {
   const { hideCashIn, updateHideCashIn } = props;
@@ -67,7 +68,11 @@ function CashInDialog(props) {
                 userid: objectId,
                 credit: text["amount"],
                 debit: 0,
-
+                createdon: {
+                  date: currentDate()["date"],
+                  month: currentDate()["month"],
+                  year: currentDate()["year"],
+                },
                 description: text["description"],
               }),
             }).catch((err) => {

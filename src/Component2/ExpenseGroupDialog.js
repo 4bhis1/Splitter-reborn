@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 
 import { ip } from "../config";
 import { Theme } from "../Context/Provider";
+import { currentDate } from "../lib/PureFunctions";
 
 function ExpenseGroup(props) {
   const { expenseHide, updateExpenseHide, data: newData } = props;
@@ -164,6 +165,11 @@ function ExpenseGroup(props) {
                     groupname: newData["groupname"],
                     expense: arr,
                     image: 18,
+                    createdon: {
+                      date: currentDate()["date"],
+                      month: currentDate()["month"],
+                      year: currentDate()["year"],
+                    },
                   }),
                 })
                   .then((response) => {
